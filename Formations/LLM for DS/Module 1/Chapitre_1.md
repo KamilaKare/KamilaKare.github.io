@@ -16,6 +16,21 @@ Before diving into generative AI, it's essential to understand what artificial i
 
 Building on these capabilities, AI has evolved into more sophisticated applications. **Generative AI (Gen AI)**, in particular, focuses on creating new content—be it text, images, audio, or even code—using models trained on large datasets. This innovative field not only enhances creative processes but also drives advancements in areas like personalized content creation, design innovation, and automated problem-solving.
 
+### Contrasting Generative AI with Discriminative AI  
+
+To better understand Generative AI, it's useful to contrast it with **Discriminative AI**.  
+
+- **Discriminative AI** focuses on classification and prediction. Given input data, it assigns labels or estimates probabilities.  
+  - Example: A spam filter classifies emails as **spam** or **not spam**.  
+  - Common models: Logistic Regression, Decision Trees, Support Vector Machines (SVMs), and traditional Neural Networks.  
+
+- **Generative AI**, on the other hand, creates new data rather than just classifying existing data.  
+  - Example: A generative model can produce entirely new emails that resemble human-written ones.  
+  - Common models: GANs (Generative Adversarial Networks), VAEs (Variational Autoencoders), and Large Language Models (LLMs) like GPT and BERT.  
+
+While **Discriminative AI** is excellent for structured problems (e.g., fraud detection, medical diagnosis), **Generative AI** unlocks new possibilities in creativity, automation, and data augmentation.  
+
+---
 
 ### Defining Generative AI
 
