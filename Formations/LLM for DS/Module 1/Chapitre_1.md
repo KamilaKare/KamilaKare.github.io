@@ -44,7 +44,7 @@ Generative AI has existed in some form for decades, but it has recently seen exp
    - Advances in data curation and preprocessing enable models to learn from diverse, high-quality sources.  
 
 3. **Advanced Architectures: The Rise of Transformers**  
-   - In 2017, the paper *"Attention Is All You Need"* introduced the **Transformer architecture**, which revolutionized AI by enabling better handling of long-range dependencies in data.  
+   - In 2017, the paper (*"Attention Is All You Need"*)[https://arxiv.org/pdf/1706.03762] introduced the **Transformer architecture**, which revolutionized AI by enabling better handling of long-range dependencies in data.  
    - Transformers power modern AI models like **GPT (OpenAI), BERT (Google), Mistral, and Llama**, enabling superior language understanding and generation.  
 
 These advancements have made Generative AI **scalable, efficient, and accessible**, leading to real-world applications across industries, from marketing to healthcare to software development.  
