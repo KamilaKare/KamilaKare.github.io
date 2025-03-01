@@ -1,7 +1,21 @@
 
-# Lecture (Text + Slides) [20 min]
+# What is Generative AI
 
-## 1.1 Introduction & Definitions (5 min)
+## 1.1 Introduction & Definitions 
+
+### Defining Artificial Intelligence (AI)
+
+Before diving into generative AI, it's essential to understand what artificial intelligence is. AI refers to algorithms and systems designed to mimic aspects of human intelligence. These technologies employ various techniques—from statistical methods to deep neural networks—to simulate cognitive functions such as:
+
+- **Perception:** Interpreting and analyzing data from the environment.
+- **Learning:** Adapting and improving from experience.
+- **Decision-Making:** Evaluating situations to choose optimal actions.
+- **Problem Solving:** Finding solutions to complex challenges.
+
+### Transitioning to Generative AI
+
+Building on these capabilities, AI has evolved into more sophisticated applications. **Generative AI (Gen AI)**, in particular, focuses on creating new content—be it text, images, audio, or even code—using models trained on large datasets. This innovative field not only enhances creative processes but also drives advancements in areas like personalized content creation, design innovation, and automated problem-solving.
+
 
 ### Defining Generative AI
 
