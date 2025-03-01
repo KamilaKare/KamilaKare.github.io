@@ -86,6 +86,10 @@ The **Transformer architecture** (introduced in the 2017 paper *"Attention Is Al
 ## 📌 Conclusion: The Future of AI  
 The evolution of AI from rule-based logic to deep learning and transformers has transformed industries and society. As AI systems become more powerful, ethical considerations and responsible AI development will be critical to ensuring their benefits outweigh potential risks. 
 
+```
+Olabiyi, W., Akinleye, D., & Joel, E. (2025). The Evolution of AI: From Rule-Based Systems to Data-Driven Intelligence. ResearchGate.
+```
+
 ---
 
 ### Suggested Slide Content
