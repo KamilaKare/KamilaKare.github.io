@@ -24,23 +24,30 @@ To better understand Generative AI, it's useful to contrast it with **Discrimina
   - Example: A spam filter classifies emails as **spam** or **not spam**.  
   - Common models: Logistic Regression, Decision Trees, Support Vector Machines (SVMs), and traditional Neural Networks.  
 
-- **Generative AI**, on the other hand, creates new data rather than just classifying existing data. It aims to understand and capture the underlying distribution of the data. They can generate new data points that are similar to the original dataset.
+- **Generative AI**, on the other hand, creates new data rather than just classifying existing data. It aims to understand and capture the underlying distribution of the data ($\mathbb{P} (X, Y)$) in order to generate new data points that are similar to the original dataset.
   - Example: A generative model can produce entirely new emails that resemble human-written ones.  
   - Common models: GANs (Generative Adversarial Networks), VAEs (Variational Autoencoders), and Large Language Models (LLMs) like GPT and BERT.  
 
 While **Discriminative AI** is excellent for structured problems (e.g., fraud detection, medical diagnosis), **Generative AI** unlocks new possibilities in creativity, automation, and data augmentation.  
 
-
 ---
+### Why Now?  
 
-### Defining Generative AI
+Generative AI has existed in some form for decades, but it has recently seen explosive growth. This is due to three key factors:  
 
-**What is Generative AI?**  
-- AI models that produce (or generate) new data: text, images, audio, code, etc.  
-- Contrast with discriminative AI (which classifies or predicts labels).
+1. **Growth in Compute Power**  
+   - The rise of specialized hardware (GPUs, TPUs) has made training deep learning models much faster and more efficient.  
+   - Cloud computing allows for large-scale AI training without needing expensive infrastructure.  
 
-**Why Now?**  
-- Growth in compute power, large datasets, and advanced architectures (Transformers).
+2. **Large Datasets**  
+   - The internet provides vast amounts of text, images, and videos, which are essential for training generative models.  
+   - Advances in data curation and preprocessing enable models to learn from diverse, high-quality sources.  
+
+3. **Advanced Architectures: The Rise of Transformers**  
+   - In 2017, the paper *"Attention Is All You Need"* introduced the **Transformer architecture**, which revolutionized AI by enabling better handling of long-range dependencies in data.  
+   - Transformers power modern AI models like **GPT (OpenAI), BERT (Google), Mistral, and Llama**, enabling superior language understanding and generation.  
+
+These advancements have made Generative AI **scalable, efficient, and accessible**, leading to real-world applications across industries, from marketing to healthcare to software development.  
 
 **Why It Matters for Business**  
 - Personalized marketing, automated content creation, design prototypes, and more.  
