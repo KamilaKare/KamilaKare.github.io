@@ -84,8 +84,8 @@ The **Transformer architecture** (introduced in the 2017 paper *"Attention Is Al
 - **Overreliance on AI:** Risk of automation replacing human expertise in key areas.  
 
 ## 📌 Conclusion: The Future of AI  
+The evolution of AI from rule-based logic to deep learning and transformers has transformed industries and society. As AI systems become more powerful, ethical considerations and responsible AI development will be critical to ensuring their benefits outweigh potential risks. 
 
-The evolution of AI from rule-based logic to deep learning and transformers has transformed industries and society. As AI systems become more powerful, ethical considerations and responsible AI development will be critical to ensuring their benefits outweigh potential risks.  
 ---
 
 ### Suggested Slide Content
