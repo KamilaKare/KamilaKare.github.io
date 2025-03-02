@@ -1,4 +1,4 @@
-## 1.3 Key Differences: Classical ML vs. Deep Learning vs. LLMs (5 min)
+## 1.3 Key Differences: Classical ML vs. Deep Learning vs. LLMs 
 
 ### Classical Machine Learning  
 - **Data Requirements:** Typically relies on smaller, well-curated datasets.  
