@@ -9,7 +9,7 @@ This is a simple blog post using Markdown.
 - *Italic text*
 - [Link to another page](another-page.md)
 
-- The quadratic formula is given by \[\( ax^2 + bx + c = 0 \)\], and the solution is: 
+- The quadratic formula is given by \( ax^2 + bx + c = 0 \), and the solution is: 
 
 $$
 x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
