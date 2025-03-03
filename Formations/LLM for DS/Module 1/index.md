@@ -24,7 +24,7 @@ Building on these capabilities, AI has evolved into more sophisticated applicati
 
 To better understand Generative AI, it's useful to contrast it with **Discriminative AI**.  
 
-- **Discriminative AI**  aims to differentiate between different classes in the data. It focuses on making classifications or predictions. Given input data $X$, it assigns labels $Y$ or estimates probabilities $\mathbb{P}(Y|X)$.  
+- **Discriminative AI**  aims to differentiate between different classes in the data. It focuses on making classifications or predictions. Given input data $X$, it assigns labels $Y$ or estimates probabilities $\mathbb{P}(Y \mid X)$.  
   - Example: A spam filter classifies emails as **spam** or **not spam**.  
   - Common models: Logistic Regression, Decision Trees, Support Vector Machines (SVMs), and traditional Neural Networks.  
 
