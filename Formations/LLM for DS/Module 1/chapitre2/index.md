@@ -87,6 +87,10 @@ $$ P(y_n \vert y_1, y_2, \dots, y_{n-1}) = P(y_n \vert y_{n-1}) $$
   <figcaption>RNN Architecture.</figcaption>
 </figure>
 
+<div style="text-align: center;">
+  ![image](https://github.com/user-attachments/assets/651f0ee9-3f0f-4c57-b5ec-20dbf87f722c)
+  <p style="font-size: smaller; font-style: italic;">This is my image caption.</p>
+</div>
 
   - RNNs have loops in their architecture that allow information to persist across time steps.
   - At each time step $t$, the network computes a hidden state  $h_t$ using:
