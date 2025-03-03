@@ -53,9 +53,9 @@ To manage computational complexity, language models often approximate the chain 
 
 #### First-Order Markov Models
 - In a **first-order Markov model**, the probability of the next word depends only on the previous word:
-  \[
-  P(y_n | y_1, y_2, \dots, y_{n-1}) = P(y_n | y_{n-1})
-  \]
+$$
+  P(y_n \vert y_1, y_2, \dots, y_{n-1}) = P(y_n \vert y_{n-1})
+$$
 - **Example**: Given the sequence "I am going to the," the model predicts the next word based on "the" (e.g., "store," "park").
 
 #### Markov Chains and N-grams
