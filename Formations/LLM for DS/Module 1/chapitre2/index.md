@@ -21,22 +21,25 @@ All possible outcomes in a given scenario sum to 1 when considering their probab
 A **Language Model (LM)**  can be defined as a probability distribution over sequences of words. It assigns a probability to every possible sequence of words $(y_1, y_2, \ldots, y_n)$. Formally:
 
 $$
-\mathcal{P} (y_1, y_2, \ldots, y_n).
+\mathbb{P} (y_1, y_2, \ldots, y_n).
 $$
 
-- **Interpretation**: A higher \(P(\dots)\) means the model deems that sequence more likely or more natural in a given language.  
-- For text generation, the LM can sample from this distribution to produce new sequences.
+- **Interpretation**:
+  - A higher $\mathbb{P}(\dots)$ means the model deems that sequence more likely or more natural in a given language.  
+  - For text generation, the LM can sample from this distribution to produce new sequences.
 
 ---
 
-#### Chain Rule (Optional Detail)
-Often, language models factorize this joint probability using the **chain rule**:
+#### Chain Rule 
+In language modeling, the chain rule of probability allows us to decompose the joint probability of a sequence of words into a product of conditional probabilities. This decomposition is expressed as:
+$$
+P(y_1, y_2, \ldots, y_n) \;=\; \prod_{i=1}^{n} P(y_i \vert _1, \ldots, y_{i-1})
+$$
 
-\[
-P(t_1, t_2, \ldots, t_n) \;=\; \prod_{i=1}^{n} P(t_i \mid t_1, \ldots, t_{i-1}).
-\]
+Here, each word $y_i$ is conditioned on all preceding words $y_1$ to $y_{i-1}$, capturing the context up to that point. This approach enables the model to consider the entire prior context when predicting the next word, making it **auto-regressive**.
 
-Each token depends on the tokens before it, capturing the context.
+#### Auto-Regressive Models
+Auto-regressive models generate each word in a sequence based on the previously generated words. By leveraging the chain rule, these models can produce coherent and contextually relevant text. However, modeling long sequences can be computationally intensive due to the dependency on all prior words.
 
 ### 2.1.2 Evolution of Language Model
 
