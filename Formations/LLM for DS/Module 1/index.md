@@ -82,12 +82,6 @@ Generative AI is more than just a technological breakthrough—it is transformin
 Businesses that integrate Generative AI gain a **competitive advantage** by improving efficiency, reducing costs, and fostering innovation. Those who adapt early will lead their industries, while others risk falling behind.  
 
 
-#### Suggested Slide Content:
-- **Slide 1:** Title: “What is Generative AI?”
-- **Slide 2:** Bullet points: Definition, Key Capabilities, Examples
-- **Slide 3:** Real-world impacts (brief mention of ChatGPT, Midjourney, Copilot, etc.)
-
-
 # The Evolution of AI: From Rule-Based to Transformers
 
 Artificial Intelligence (AI) has undergone several major paradigm shifts, evolving from rigid rule-based systems to sophisticated deep learning models and, more recently, to **transformer-based architectures** that power modern generative AI.  
@@ -172,23 +166,15 @@ The **Transformer architecture** (introduced in the 2017 paper *"Attention Is Al
 - **Compute & Energy Costs:** Training LLMs requires vast computational resources.  
 - **Overreliance on AI:** Risk of automation replacing human expertise in key areas.  
 
-## 📌 Conclusion: The Future of AI  
-The evolution of AI from rule-based logic to deep learning and transformers has transformed industries and society. As AI systems become more powerful, ethical considerations and responsible AI development will be critical to ensuring their benefits outweigh potential risks. 
-
 ```
 Olabiyi, W., Akinleye, D., & Joel, E. (2025). The Evolution of AI: From Rule-Based Systems to Data-Driven Intelligence. ResearchGate.
 ```
+## 📌 Conclusion: The Future of AI  
+The evolution of AI from rule-based logic to deep learning and transformers has transformed industries and society. As AI systems become more powerful, ethical considerations and responsible AI development will be critical to ensuring their benefits outweigh potential risks. 
+
+
 
 ---
-
-### Suggested Slide Content
-- **Slide 4:** Timeline showcasing the evolution:  
-  - Rule-based systems (1980s) → Classical ML (1990s-2000s) → Deep Learning (2010s) → Transformers (2017+)
-- **Slide 5:** Comparison chart highlighting:  
-  - **Rule-Based AI:** Explicit, hand-crafted rules  
-  - **Classical ML:** Statistical models with manual feature engineering  
-  - **Deep Learning:** Automatic feature extraction using neural networks  
-  - **Transformers:** Self-attention and parallel processing capabilities
 
 This evolution not only illustrates the technological advancements in AI but also sets the stage for understanding the powerful capabilities of modern generative models.
 
@@ -214,18 +200,6 @@ This evolution not only illustrates the technological advancements in AI but als
   - Demonstrates zero-/few-shot learning, enabling task adaptation with minimal new data.  
 - **Architectural Innovations:** Built on transformer models that leverage self-attention for processing sequences.  
 - **Typical Tasks:** Chatbots, content generation, code synthesis, and other advanced language-based applications.
-
-#### Suggested Slide Content:
-- **Slide 6:** Display a comparative table highlighting:
-  - **Data Size:** Small (Classical ML) vs. Large (Deep Learning & LLMs)  
-  - **Feature Engineering:** Manual (Classical ML) vs. Automatic (Deep Learning & LLMs)  
-  - **Interpretability:** High (Classical ML) vs. Lower (Deep Learning & LLMs)  
-  - **Typical Use Cases:** Fraud detection (Classical ML), image recognition (Deep Learning), chatbots/content generation (LLMs).
-  
-- **Slide 7:** Summarize real-world usage:
-  - **Classical ML:** Effective for structured data tasks such as fraud detection or customer segmentation.
-  - **Deep Learning:** Powers computer vision applications like image and video analysis.
-  - **LLMs:** Revolutionizes natural language processing through applications like conversational agents and automated content creation.
 
 
 
