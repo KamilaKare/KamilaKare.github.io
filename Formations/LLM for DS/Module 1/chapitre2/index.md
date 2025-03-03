@@ -43,29 +43,23 @@ Auto-regressive models generate each word in a sequence based on the previously 
 
 ### 2.1.2 Evolution of Language Models
 
-#### N-Gram and Markov Models
+#### The Markov Assumption and First-Order Markov Models
+To manage computational complexity, language models often approximate the chain rule by considering only a fixed number of preceding words.
 
-To manage computational complexity, language models often approximate the chain rule by considering only a fixed number of preceding words, known as n-grams. For example, a bigram model (2-gram) simplifies the conditional probability to depend only on the immediately preceding word:
-$$
-P(y_1, y_2, \ldots, y_n) \;=\; \prod_{i=1}^{n} P(y_i \vert _1, \ldots, y_{i-1})
-$$
-
-# Module 2: The Markov Assumption and First-Order Markov Models
-
-### 2.1 The Markov Assumption
+#### The Markov Assumption
 - The **Markov condition** states that: "The future is independent of the past, given the present."
   - **For sequence modeling**, this means that we only need the most recent context to predict the next word.
-- The key idea is that the prediction at time \( t \) depends only on the previous state, not on the entire history of the sequence.
+- The key idea is that the prediction at time $t$ depends only on the previous state, not on the entire history of the sequence.
 
-### 2.2 First-Order Markov Models
+#### First-Order Markov Models
 - In a **first-order Markov model**, the probability of the next word depends only on the previous word:
   \[
-  P(w_n | w_1, w_2, \dots, w_{n-1}) = P(w_n | w_{n-1})
+  P(y_n | y_1, y_2, \dots, y_{n-1}) = P(y_n | y_{n-1})
   \]
 - **Example**: Given the sequence "I am going to the," the model predicts the next word based on "the" (e.g., "store," "park").
 
-### 2.3 Markov Chains and N-grams
-- **N-grams** are a generalization of the first-order Markov model where the prediction depends on the previous \( N \) words.
+#### Markov Chains and N-grams
+- **N-grams** are a generalization of the first-order Markov model where the prediction depends on the previous $N$ words.
   - **Bigram (2-grams)**: Depends on the previous word.
   - **Trigram (3-grams)**: Depends on the previous two words.
 - Training an N-gram model involves counting the occurrences of word pairs or triplets in a corpus and estimating their probabilities.
@@ -73,20 +67,16 @@ $$
   - The model only captures local context, and many word combinations may not appear in the training data (data sparsity).
   - Example: For "I went to the park" → the trigram model would use "to the park" to predict the next word.
 
----
-
-## Module 3: Limitations of Traditional N-gram Models
-
-### 3.1 Issues with N-grams
-- **Data sparsity**: As \( N \) increases, the number of possible word sequences increases exponentially, leading to many unseen word combinations.
+#### Issues with N-grams
+- **Data sparsity**: As $N$ increases, the number of possible word sequences increases exponentially, leading to many unseen word combinations.
 - **Limited context**: Even with higher-order N-grams, the model only considers a fixed window of past words (e.g., bigrams, trigrams), which is often insufficient for capturing longer dependencies.
-- **Computational complexity**: Storing and processing large N-gram models becomes computationally expensive as \( N \) increases.
+- **Computational complexity**: Storing and processing large N-gram models becomes computationally expensive as $N$ increases.
 
-### 3.2 Moving Beyond N-grams
+#### Moving Beyond N-grams
 - To overcome these limitations, models need to account for more extensive context, beyond just the last few words.
 - The **neural network-based models** like RNNs were introduced to address the long-range dependencies that N-grams cannot capture.
 
-
+---
 #### RNNs and LSTMs
 
 #### LLMs
