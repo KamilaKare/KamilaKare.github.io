@@ -80,6 +80,7 @@ $$ P(y_n \vert y_1, y_2, \dots, y_{n-1}) = P(y_n \vert y_{n-1}) $$
 - **Neural networks** can be used to model sequences of words by learning patterns in the data.
 - **Feedforward neural networks** were an early attempt at sequence modeling, but they lack the capability to capture sequential dependencies.
 
+#### Recurrent Neural Netowrks (RNNs)
 - **Architecture**:
     ![image](https://github.com/user-attachments/assets/651f0ee9-3f0f-4c57-b5ec-20dbf87f722c)
   <figure>
@@ -87,41 +88,41 @@ $$ P(y_n \vert y_1, y_2, \dots, y_{n-1}) = P(y_n \vert y_{n-1}) $$
   <figcaption>RNN Architecture.</figcaption>
 </figure>
 
-<div style="text-align: center;">
-  ![image](https://github.com/user-attachments/assets/651f0ee9-3f0f-4c57-b5ec-20dbf87f722c)
-  <p style="font-size: smaller; font-style: italic;">This is my image caption.</p>
-</div>
-
   - RNNs have loops in their architecture that allow information to persist across time steps.
   - At each time step $t$, the network computes a hidden state  $h_t$ using:
     $$
     h_t = f(W_x x_t + W_h h_{t-1} + b)
     $$
     where:
-    - $\( x_t \) is the input at time \( t \),
-    - \( h_{t-1} \) is the hidden state from the previous time step,
-    - \( W_x \) and \( W_h \) are weight matrices,
-    - \( b \) is a bias term,
-    - \( f \) is an activation function (typically \( \tanh \) or ReLU).
+    - $x_t$ is the input at time $t$,
+    - $h_{t-1}$ is the hidden state from the previous time step,
+    - $W_x$ and $W_h$ are weight matrices,
+    - $b$ is a bias term,
+    - $f$ is an activation function (typically $\tanh$ or ReLU).
+      
 - **Challenges**:
   - **Vanishing gradients**: During training, gradients may shrink exponentially over long sequences, making it difficult to learn long-range dependencies.
   - **Exploding gradients**: In some cases, gradients can grow uncontrollably, destabilizing training.
   - **Sequential processing**: RNNs process one time step at a time, limiting parallelization.
 
-### 5.2 Long Short-Term Memory (LSTM) Networks
+#### Long Short-Term Memory (LSTM) Networks
+
 - **Purpose**: LSTMs are designed to overcome the limitations of standard RNNs, particularly the vanishing gradient problem.
 - **Core Component – The Memory Cell**:
-  - Each LSTM cell contains a **cell state** \( C_t \) that serves as a memory, allowing information to flow relatively unchanged over time.
+  - Each LSTM cell contains a **cell state** $C_t$ that serves as a memory, allowing information to flow relatively unchanged over time.
 - **Gating Mechanisms**:
-  - **Forget Gate** \( f_t \):
-    \[
+  - **Forget Gate** $f_t$:
+    
+    $$
     f_t = \sigma(W_f \cdot [h_{t-1}, x_t] + b_f)
-    \]
+    $$
     Decides what information to discard from the cell state.
-  - **Input Gate** \( i_t \):
-    \[
+  - **Input Gate** $i_t$:
+    
+    $$
     i_t = \sigma(W_i \cdot [h_{t-1}, x_t] + b_i)
-    \]
+    $$
+    
     Determines which new information to add to the cell state.
   - **Candidate Cell State** \( \tilde{C}_t \):
     \[
