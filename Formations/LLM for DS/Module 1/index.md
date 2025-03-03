@@ -1,3 +1,7 @@
+---
+layout: default
+title: What is Generative AI
+---
 
 # Chapter 1: What is Generative AI
 
