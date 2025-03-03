@@ -1,5 +1,5 @@
 
-# What is Generative AI
+# Chapter 1: What is Generative AI
 
 ## 1.1 Introduction & Definitions 
 
