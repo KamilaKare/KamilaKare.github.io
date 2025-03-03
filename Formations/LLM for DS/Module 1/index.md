@@ -198,7 +198,5 @@ This evolution not only illustrates the technological advancements in AI but als
 - **Architectural Innovations:** Built on transformer models that leverage self-attention for processing sequences.  
 - **Typical Tasks:** Chatbots, content generation, code synthesis, and other advanced language-based applications.
 
-<head>
-  {% include head.html %}
-</head>
+
 
