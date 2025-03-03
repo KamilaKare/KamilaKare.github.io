@@ -32,6 +32,7 @@ $$
 
 #### Chain Rule 
 In language modeling, the chain rule of probability allows us to decompose the joint probability of a sequence of words into a product of conditional probabilities. This decomposition is expressed as:
+
 $$
 P(y_1, y_2, \ldots, y_n) \;=\; P(y_1)\prod_{i=2}^{n} P(y_i \vert _1, \ldots, y_{i-1})
 $$
@@ -80,7 +81,12 @@ $$ P(y_n \vert y_1, y_2, \dots, y_{n-1}) = P(y_n \vert y_{n-1}) $$
 - **Feedforward neural networks** were an early attempt at sequence modeling, but they lack the capability to capture sequential dependencies.
 
 - **Architecture**:
+  
+  <figure>
   ![image](https://github.com/user-attachments/assets/651f0ee9-3f0f-4c57-b5ec-20dbf87f722c)
+  <figcaption>RNN Architecture.</figcaption>
+</figure>
+
 
   - RNNs have loops in their architecture that allow information to persist across time steps.
   - At each time step $t$, the network computes a hidden state  $h_t$ using:
