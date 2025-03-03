@@ -81,7 +81,7 @@ $$ P(y_n \vert y_1, y_2, \dots, y_{n-1}) = P(y_n \vert y_{n-1}) $$
 - **Feedforward neural networks** were an early attempt at sequence modeling, but they lack the capability to capture sequential dependencies.
 
 - **Architecture**:
-  
+    ![image](https://github.com/user-attachments/assets/651f0ee9-3f0f-4c57-b5ec-20dbf87f722c)
   <figure>
   ![image](https://github.com/user-attachments/assets/651f0ee9-3f0f-4c57-b5ec-20dbf87f722c)
   <figcaption>RNN Architecture.</figcaption>
