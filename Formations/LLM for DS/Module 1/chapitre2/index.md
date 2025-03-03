@@ -21,7 +21,7 @@ All possible outcomes in a given scenario sum to 1 when considering their probab
 A **Language Model (LM)**  can be defined as a probability distribution over sequences of words. It assigns a probability to every possible sequence of words $(y_1, y_2, \ldots, y_n)$. Formally:
 
 $$
-\mathbb{P} (y_1, y_2, \ldots, y_n).
+\mathcal{P} (y_1, y_2, \ldots, y_n).
 $$
 
 - **Interpretation**: A higher \(P(\dots)\) means the model deems that sequence more likely or more natural in a given language.  
