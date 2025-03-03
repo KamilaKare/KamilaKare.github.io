@@ -53,24 +53,21 @@ To manage computational complexity, language models often approximate the chain 
 
 #### First-Order Markov Models
 - In a **first-order Markov model**, the probability of the next word depends only on the previous word:
-$$
-  P(y_n \vert y_1, y_2, \dots, y_{n-1}) = P(y_n \vert y_{n-1})
-$$
+$$ P(y_n \vert y_1, y_2, \dots, y_{n-1}) = P(y_n \vert y_{n-1}) $$
+
 - **Example**: Given the sequence "I am going to the," the model predicts the next word based on "the" (e.g., "store," "park").
 
 #### Markov Chains and N-grams
 - **N-grams** are a generalization of the first-order Markov model where the prediction depends on the previous $N$ words.
   - **Bigram (2-grams)**: Depends on the previous word.
   - **Trigram (3-grams)**: Depends on the previous two words.
-- Training an N-gram model involves counting the occurrences of word pairs or triplets in a corpus and estimating their probabilities.
-- **Limitation**:
-  - The model only captures local context, and many word combinations may not appear in the training data (data sparsity).
-  - Example: For "I went to the park" → the trigram model would use "to the park" to predict the next word.
+- Training an N-gram model involves counting the occurrences of word pairs or triplets in a corpus and estimating their probabilities.  In other words, in order to compute the language model, we need to calculate the probability of words and the conditional probability of a word given the previous few words. Note that such probabilities are language model parameters.
 
 #### Issues with N-grams
 - **Data sparsity**: As $N$ increases, the number of possible word sequences increases exponentially, leading to many unseen word combinations.
-- **Limited context**: Even with higher-order N-grams, the model only considers a fixed window of past words (e.g., bigrams, trigrams), which is often insufficient for capturing longer dependencies.
-- **Computational complexity**: Storing and processing large N-gram models becomes computationally expensive as $N$ increases.
+- **Limited context**:  N-gram models consider only a fixed window of preceding words (e.g., bigrams, trigrams). This fixed context window is often insufficient for capturing longer-range dependencies and nuances in language, limiting the model's ability to understand and generate coherent text over longer passages.
+- **Computational complexity**: Storing and processing large N-gram models becomes computationally expensive as $N$ increases. This complexity can slow down processing and make the models less practical for large-scale applications.
+- **Out-of-Vocabulary (OOV) Words**: N-gram models struggle with words or sequences that were not present in the training data. When encountering these OOV words during testing or real-world application, the model may fail to provide accurate predictions or generate meaningful text.
 
 #### Moving Beyond N-grams
 - To overcome these limitations, models need to account for more extensive context, beyond just the last few words.
@@ -78,6 +75,69 @@ $$
 
 ---
 #### RNNs and LSTMs
+
+- **Neural networks** can be used to model sequences of words by learning patterns in the data.
+- **Feedforward neural networks** were an early attempt at sequence modeling, but they lack the capability to capture sequential dependencies.
+
+- **Architecture**:
+  - RNNs have loops in their architecture that allow information to persist across time steps.
+  - At each time step $t$, the network computes a hidden state  $h_t$ using:
+    $$
+    h_t = f(W_x x_t + W_h h_{t-1} + b)
+    $$
+    where:
+    - $\( x_t \) is the input at time \( t \),
+    - \( h_{t-1} \) is the hidden state from the previous time step,
+    - \( W_x \) and \( W_h \) are weight matrices,
+    - \( b \) is a bias term,
+    - \( f \) is an activation function (typically \( \tanh \) or ReLU).
+- **Challenges**:
+  - **Vanishing gradients**: During training, gradients may shrink exponentially over long sequences, making it difficult to learn long-range dependencies.
+  - **Exploding gradients**: In some cases, gradients can grow uncontrollably, destabilizing training.
+  - **Sequential processing**: RNNs process one time step at a time, limiting parallelization.
+
+### 5.2 Long Short-Term Memory (LSTM) Networks
+- **Purpose**: LSTMs are designed to overcome the limitations of standard RNNs, particularly the vanishing gradient problem.
+- **Core Component – The Memory Cell**:
+  - Each LSTM cell contains a **cell state** \( C_t \) that serves as a memory, allowing information to flow relatively unchanged over time.
+- **Gating Mechanisms**:
+  - **Forget Gate** \( f_t \):
+    \[
+    f_t = \sigma(W_f \cdot [h_{t-1}, x_t] + b_f)
+    \]
+    Decides what information to discard from the cell state.
+  - **Input Gate** \( i_t \):
+    \[
+    i_t = \sigma(W_i \cdot [h_{t-1}, x_t] + b_i)
+    \]
+    Determines which new information to add to the cell state.
+  - **Candidate Cell State** \( \tilde{C}_t \):
+    \[
+    \tilde{C}_t = \tanh(W_C \cdot [h_{t-1}, x_t] + b_C)
+    \]
+    Represents the new candidate values to be added.
+  - **Output Gate** \( o_t \):
+    \[
+    o_t = \sigma(W_o \cdot [h_{t-1}, x_t] + b_o)
+    \]
+    Decides what part of the cell state to output.
+- **Updating the Cell State and Hidden State**:
+  - The new cell state is updated as:
+    \[
+    C_t = f_t \ast C_{t-1} + i_t \ast \tilde{C}_t
+    \]
+  - The hidden state is then computed by:
+    \[
+    h_t = o_t \ast \tanh(C_t)
+    \]
+- **Benefits of LSTMs**:
+  - They can maintain and update long-term dependencies much more effectively than standard RNNs.
+  - LSTMs mitigate the vanishing gradient problem, allowing training on longer sequences.
+  - Their gating mechanisms provide a way to selectively remember or forget information, which is crucial for tasks requiring context over long distances.
+
+---
+
+
 
 #### LLMs
 
