@@ -24,11 +24,11 @@ Building on these capabilities, AI has evolved into more sophisticated applicati
 
 To better understand Generative AI, it's useful to contrast it with **Discriminative AI**.  
 
-- **Discriminative AI**  aims to differentiate between different classes in the data. It focuses on making classifications or predictions. Given input data $X$, it assigns labels $Y$ or estimates probabilities $\mathbb{P}(Y \vert X)$.  
+- **Discriminative AI**  aims to differentiate between different classes in the data. It focuses on making classifications or predictions. Given input data $X$, it assigns labels $Y$ or estimates probabilities $P(Y \vert X)$.  
   - Example: A spam filter classifies emails as **spam** or **not spam**.  
   - Common models: Logistic Regression, Decision Trees, Support Vector Machines (SVMs), and traditional Neural Networks.  
 
-- **Generative AI**, on the other hand, creates new data rather than just classifying existing data. It aims to understand and capture the underlying distribution of the data $\mathbb{P}(X, Y)$ in order to generate new data points that are similar to the original dataset.  
+- **Generative AI**, on the other hand, creates new data rather than just classifying existing data. It aims to understand and capture the underlying distribution of the data $P(X, Y)$ in order to generate new data points that are similar to the original dataset.  
   - Example: A generative model can produce entirely new emails that resemble human-written ones.  
   - Common models: GANs (Generative Adversarial Networks), VAEs (Variational Autoencoders), and Large Language Models (LLMs) like GPT and BERT.  
 
@@ -169,16 +169,13 @@ The **Transformer architecture** (introduced in the 2017 paper *"Attention Is Al
 - **Compute & Energy Costs:** Training LLMs requires vast computational resources.  
 - **Overreliance on AI:** Risk of automation replacing human expertise in key areas.  
 
-```
-Olabiyi, W., Akinleye, D., & Joel, E. (2025). The Evolution of AI: From Rule-Based Systems to Data-Driven Intelligence. ResearchGate.
-```
+
 ### 📌 Conclusion: The Future of AI  
 The evolution of AI from rule-based logic to deep learning and transformers has transformed industries and society. As AI systems become more powerful, ethical considerations and responsible AI development will be critical to ensuring their benefits outweigh potential risks. 
 
 
 This evolution not only illustrates the technological advancements in AI but also sets the stage for understanding the powerful capabilities of modern generative models.
 
----
 
 ## 1.3 Key Differences: Classical ML vs. Deep Learning vs. LLMs 
 
@@ -202,5 +199,11 @@ This evolution not only illustrates the technological advancements in AI but als
 - **Architectural Innovations:** Built on transformer models that leverage self-attention for processing sequences.  
 - **Typical Tasks:** Chatbots, content generation, code synthesis, and other advanced language-based applications.
 
+### References:
+```
+Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł., & Polosukhin, I. (2017). Attention is all you need. Advances in Neural Information Processing Systems (NeurIPS), 30
+
+Olabiyi, W., Akinleye, D., & Joel, E. (2025). The Evolution of AI: From Rule-Based Systems to Data-Driven Intelligence. ResearchGate.
+```
 
 
