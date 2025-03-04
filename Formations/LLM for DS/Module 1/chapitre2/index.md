@@ -82,14 +82,10 @@ $$ P(y_n \vert y_1, y_2, \dots, y_{n-1}) = P(y_n \vert y_{n-1}) $$
 #### Recurrent Neural Netowrks (RNNs)
 - **Architecture**:
     ![image](https://github.com/user-attachments/assets/651f0ee9-3f0f-4c57-b5ec-20dbf87f722c)
-  <figure>
-  ![image](https://github.com/user-attachments/assets/651f0ee9-3f0f-4c57-b5ec-20dbf87f722c)
-  <figcaption>RNN Architecture.</figcaption>
-</figure>
 
-{% figure caption:"RNN Architecture." %}
-![RNN Architecture](https://github.com/user-attachments/assets/651f0ee9-3f0f-4c57-b5ec-20dbf87f722c)
-{% endfigure %}
+
+  {% include image.html src="https://github.com/user-attachments/assets/651f0ee9-3f0f-4c57-b5ec-20dbf87f722c" alt="RNN Architecture" caption="RNN Architecture from GeeksforGeeks." %}
+
 
   - RNNs have loops in their architecture that allow information to persist across time steps.
   - At each time step $t$, the network computes a hidden state  $h_t$ using:
