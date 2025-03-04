@@ -12,7 +12,7 @@ title: LLM Fundamentals
 A probability distribution is a mathematical function that describes the likelihood of different outcomes in a random experiment. It is a measure between 0 and 1 indicating how likely an event is to occur. 
 
 - **Example 1**: The probability that a fair coin lands on heads is 0.5 (50%).  
-- **Example 2**: The probability of rolling a 6 on a fair six-sided die is $\frac{1}{6} \approx 0.167$.  
+- **Example 2**: The probability of rolling a 6 on a fair six-sided die is $1/6$.  
 
 All possible outcomes in a given scenario sum to 1 when considering their probabilities.
 
@@ -21,20 +21,18 @@ All possible outcomes in a given scenario sum to 1 when considering their probab
 A **Language Model (LM)**  can be defined as a probability distribution over sequences of words. It assigns a probability to every possible sequence of words $(y_1, y_2, \ldots, y_n)$. Formally:
 
 $$
-\mathbb{P} (y_1, y_2, \ldots, y_n).
+P (y_1, y_2, \ldots, y_n).
 $$
 
 - **Interpretation**:
-  - A higher $\mathbb{P}(\dots)$ means the model deems that sequence more likely or more natural in a given language.  
+  - A higher $P(\dots)$ means the model deems that sequence more likely or more natural in a given language.  
   - For text generation, the LM can sample from this distribution to produce new sequences.
-
----
 
 #### Chain Rule 
 In language modeling, the chain rule of probability allows us to decompose the joint probability of a sequence of words into a product of conditional probabilities. This decomposition is expressed as:
 
 $$
-P(y_1, y_2, \ldots, y_n) = P(y_1)\prod_{i=2}^{n} P(y_i \vert _1, \ldots, y_{i-1})
+P(y_1, y_2, \ldots, y_n) = P(y_1)\prod_{i=2}^{n} P(y_i \vert y_1, \ldots, y_{i-1})
 $$
 
 Here, each word $y_i$ is conditioned on all preceding words $y_1$ to $y_{i-1}$, capturing the context up to that point. This approach enables the model to consider the entire prior context when predicting the next word, making it **auto-regressive**.
@@ -54,6 +52,7 @@ To manage computational complexity, language models often approximate the chain 
 
 #### First-Order Markov Models
 - In a **first-order Markov model**, the probability of the next word depends only on the previous word:
+  
 $$ P(y_n \vert y_1, y_2, \dots, y_{n-1}) = P(y_n \vert y_{n-1}) $$
 
 - **Example**: Given the sequence "I am going to the," the model predicts the next word based on "the" (e.g., "store," "park").
