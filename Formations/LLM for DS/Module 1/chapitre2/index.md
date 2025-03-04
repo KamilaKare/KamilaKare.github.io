@@ -107,6 +107,9 @@ $$ P(y_n \vert y_1, y_2, \dots, y_{n-1}) = P(y_n \vert y_{n-1}) $$
 
 #### Long Short-Term Memory (LSTM) Networks
 
+![image](https://github.com/user-attachments/assets/66734a09-d16c-4914-bf84-3248b1c4e4c2)
+
+
 - **Purpose**: LSTMs are designed to overcome the limitations of standard RNNs, particularly the vanishing gradient problem.
 - **Core Component – The Memory Cell**:
   - Each LSTM cell contains a **cell state** $C_t$ that serves as a memory, allowing information to flow relatively unchanged over time.
