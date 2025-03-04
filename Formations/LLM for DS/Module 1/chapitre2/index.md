@@ -81,17 +81,16 @@ $$ P(y_n \vert y_1, y_2, \dots, y_{n-1}) = P(y_n \vert y_{n-1}) $$
 
 #### Recurrent Neural Netowrks (RNNs)
 - **Architecture**:
-    ![image](https://github.com/user-attachments/assets/651f0ee9-3f0f-4c57-b5ec-20dbf87f722c)
-
 
   {% include image.html src="https://github.com/user-attachments/assets/651f0ee9-3f0f-4c57-b5ec-20dbf87f722c" alt="RNN Architecture" caption="RNN Architecture from GeeksforGeeks." %}
 
-
   - RNNs have loops in their architecture that allow information to persist across time steps.
   - At each time step $t$, the network computes a hidden state  $h_t$ using:
+    
     $$
     h_t = f(W_x x_t + W_h h_{t-1} + b)
     $$
+    
     where:
     - $x_t$ is the input at time $t$,
     - $h_{t-1}$ is the hidden state from the previous time step,
@@ -118,6 +117,7 @@ $$ P(y_n \vert y_1, y_2, \dots, y_{n-1}) = P(y_n \vert y_{n-1}) $$
     $$
     f_t = \sigma(W_f \cdot [h_{t-1}, x_t] + b_f)
     $$
+    
     Decides what information to discard from the cell state. It combines the current input with the previous output to produce a fraction (between 0 and 1) that determines how much of the previous state to retain. A value of 1 means "keep everything," while 0 means "forget everything." This fraction is then multiplied with the previous state.
   - **Input Gate** $i_t$:
     
@@ -128,12 +128,13 @@ $$ P(y_n \vert y_1, y_2, \dots, y_{n-1}) = P(y_n \vert y_{n-1}) $$
     Determines which new information to add to the cell state. It also processes the current input and previous output, but its role is to decide which new information to incorporate. It generates a fraction (between 0 and 1) that is multiplied with the new candidate state (produced after a tanh activation). This product is then added to the previous state to form the updated state.
     
   - **Candidate Cell State**  $\tilde{C}_t$:
-  - 
+    
     $$
     \tilde{C}_t = \tanh(W_C \cdot [h_{t-1}, x_t] + b_C)
     $$
     
     This is a vector of new potential values computed from the current input and previous hidden state, passed through a tanh activation. It represents the new information that can be added to the cell state after being modulated by the input gate.
+    
   - **Output Gate** $o_t$:
     
     $$
@@ -141,6 +142,7 @@ $$ P(y_n \vert y_1, y_2, \dots, y_{n-1}) = P(y_n \vert y_{n-1}) $$
     $$
     
     This gate determines which parts of the cell state should be exposed as the hidden state. It applies a sigmoid function on the current input and previous hidden state to generate a gating vector, which is then multiplied with the tanh-transformed cell state to produce the final output for the time step.
+    
 - **Updating the Cell State and Hidden State**:
   - The new cell state is updated as:
     
@@ -156,11 +158,6 @@ $$ P(y_n \vert y_1, y_2, \dots, y_{n-1}) = P(y_n \vert y_{n-1}) $$
   - They can maintain and update long-term dependencies much more effectively than standard RNNs.
   - LSTMs mitigate the vanishing gradient problem, allowing training on longer sequences.
   - Their gating mechanisms provide a way to selectively remember or forget information, which is crucial for tasks requiring context over long distances.
-
----
-
-
-#### LLMs
 
 
 ## 2.2 Core Concepts
