@@ -56,32 +56,24 @@ where \( \alpha(\mathbf{q}, \mathbf{k}_i) \) are attention weights.
 
 The attention weights \( \alpha(\mathbf{q}, \mathbf{k}_i) \) have specific properties:
 
-- They are **nonnegative**: \( \alpha(\mathbf{q}, \mathbf{k}_i) \geq 0 \).
+- They are **nonnegative**: \( \alpha(\mathbf{q}, \mathbf{k}_i) \geq 0 \), The model never assigns negative importance.
 - They form a **convex combination**: \( \sum_{i} \alpha(\mathbf{q}, \mathbf{k}_i) = 1 \).
-- If one weight is **1 and all others are 0**, attention acts like a traditional database query.
-- If all weights are **equal** (\(\alpha = \frac{1}{m}\)), we perform uniform averaging.
+- If all weights are **equal** (\(\alpha = \frac{1}{m}\)), we’re simply averaging all $\mathbf{v}_i$ equally, which is a naive baseline..
 
-This mechanism allows a model to **focus** on the most relevant values dynamically.
+The beauty of attention is that it learns to focus on the relevant keys (and thus their values) based on the query, effectively performing a data-driven weighting akin to nonparametric smoothing.
 
 ### Scaling to Large Models
 
-In modern deep learning, the function \( \alpha(\mathbf{q}, \mathbf{k}_i) \) is often computed as:
+In modern Transformer networks, the function \( \alpha(\mathbf{q}, \mathbf{k}_i) \) is often computed as:
 
-\[
+$$
 \alpha(\mathbf{q}, \mathbf{k}_i) \propto \exp \left( \frac{\mathbf{q} \cdot \mathbf{k}_i}{\sqrt{d_k}} \right)
-\]
+$$
 
 followed by a **softmax** operation to normalize the weights. This resembles a **learned kernel function** that adapts based on the training data.
 
-### Summary
+![image](https://github.com/user-attachments/assets/9e9a4a9d-2416-45ea-b49c-1428feffbc2a)
 
-Attention can be viewed as a **generalized kernel regression**:
-
-| Concept in Regression  | Equivalent in Attention  |
-|------------------------|-------------------------|
-| \( x_i \) (data points)  | **Keys** (\(\mathbf{k}_i\)) |
-| \( y_i \) (values)       | **Values** (\(\mathbf{v}_i\)) |
-| \( x \) (query point)   | **Query** (\(\mathbf{q}\)) |
-| Kernel function \( \alpha(x, x_i) \) | **Attention weights** \( \alpha(\mathbf{q}, \mathbf{k}_i) \) |
+mettre attention avec softmax
 
 This perspective helps us understand why attention mechanisms are so powerful: they **dynamically select the most relevant “neighbors”** in the dataset and **combine their values** based on similarity to the query.
