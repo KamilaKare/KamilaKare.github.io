@@ -9,7 +9,7 @@ title: Transformer Building Blocks
 
 ### Motivation
 
-Let assume you have some data points $\mathcal(D) = \big{ (x_1, y_1), (x_2, y_2), \lots, (x_n, y_n) \in \mathcal{R}^d, d \ge 1\big}$. You are given $x$, 
+Let assume you have some data points $\mathcal(D) = \big\{ (x_1, y_1), (x_2, y_2), \lots, (x_n, y_n) \in \mathcal{R}^d, d \ge 1\big\}$. You are given $x$, 
 how do you estimate $y$?.
 In non parametric regression, we can estimate $y$ as follows:
 
