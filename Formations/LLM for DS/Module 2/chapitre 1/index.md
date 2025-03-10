@@ -9,17 +9,6 @@ title: Transformer Building Blocks
 
 ### Motivation
 
-Let assume you have some data points $$\mathcal(D) = \big\{ (x_1, y_1), (x_2, y_2), \lots, (x_n, y_n) \in \mathcal{R}^d, d \ge 1\big\}$$. You are given $x$, 
-how do you estimate $y$?.
-In non parametric regression, we can estimate $y$ as follows:
-
-$$ \hat{y} = \sum_{i=1}^n \alpha(x, x_i) y_i $$ 
-where $\alpha$ in the Nadaraya–Watson estimators framework is a kernel.  
-
-## 1.1 Queries, Keys, and Values in Attention Mechanisms
-
-### Motivation
-
 Let’s assume we have some data points:
 $
 \mathcal{D} = \big\{ (x_1, y_1), (x_2, y_2), \dots, (x_n, y_n) \big\} \in \mathbb{R}^d, \quad d \geq 1
