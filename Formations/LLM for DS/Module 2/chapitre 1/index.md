@@ -53,7 +53,7 @@ The beauty of attention is that it learns to focus on the relevant keys (and thu
 
 ### Scaling to Large Models
 
-In modern Transformer networks, the function \( \alpha(\mathbf{q}, \mathbf{k}_i) \) is often computed as:
+In modern Transformer networks, the function $ \alpha(\mathbf{q}, \mathbf{k}_i) $ is often computed as:
 
 $$
 \alpha(\mathbf{q}, \mathbf{k}_i) \propto \exp \left( \frac{\mathbf{q} \cdot \mathbf{k}_i}{\sqrt{d_k}} \right)
@@ -70,34 +70,34 @@ This perspective helps us understand why attention mechanisms are so powerful: t
 
 ## Attention Mechanism Formula
 
-Given a set of **queries** \( \mathbf{Q} \), **keys** \( \mathbf{K} \), and **values** \( \mathbf{V} \), the attention mechanism computes an output as a weighted sum of values:
+Given a set of **queries** $ \mathbf{Q} $, **keys** $ \mathbf{K} $, and **values** $ \mathbf{V} $, the attention mechanism computes an output as a weighted sum of values:
 
-\[
+$$
 \text{Attention}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{softmax} \left( \frac{\mathbf{Q} \mathbf{K}^T}{\sqrt{d_k}} \right) \mathbf{V}
-\]
+$$
 
 where:
 
-- \( \mathbf{Q} \in \mathbb{R}^{n_q \times d_k} \) is the **query matrix** (representing the search input).
-- \( \mathbf{K} \in \mathbb{R}^{n_k \times d_k} \) is the **key matrix** (representing stored information).
-- \( \mathbf{V} \in \mathbb{R}^{n_k \times d_v} \) is the **value matrix** (containing data to be retrieved).
-- \( d_k \) is the **dimensionality of keys and queries**.
-- \( \frac{\mathbf{Q} \mathbf{K}^T}{\sqrt{d_k}} \) computes the **scaled dot-product similarity** between queries and keys.
+- $ \mathbf{Q} \in \mathbb{R}^{n_q \times d_k} $ is the **query matrix** (representing the search input).
+- $ \mathbf{K} \in \mathbb{R}^{n_k \times d_k} $ is the **key matrix** (representing stored information).
+- $ \mathbf{V} \in \mathbb{R}^{n_k \times d_v} $ is the **value matrix** (containing data to be retrieved).
+- $ d_k $ is the **dimensionality of keys and queries**.
+- $ \frac{\mathbf{Q} \mathbf{K}^T}{\sqrt{d_k}} $ computes the **scaled dot-product similarity** between queries and keys.
 - The **softmax function** ensures that the attention scores sum to 1, assigning different levels of importance to different values.
 
 ### Expanded Form
 
-For a single query \( \mathbf{q} \) and a database \( \mathcal{D} = \{ (\mathbf{k}_1, \mathbf{v}_1), \dots, (\mathbf{k}_m, \mathbf{v}_m) \} \), attention is computed as:
+For a single query $ \mathbf{q} $ and a database $ \mathcal{D} = \{ (\mathbf{k}_1, \mathbf{v}_1), \dots, (\mathbf{k}_m, \mathbf{v}_m) \} $, attention is computed as:
 
-\[
+$$
 \text{Attention}(\mathbf{q}, \mathcal{D}) = \sum_{i=1}^{m} \alpha(\mathbf{q}, \mathbf{k}_i) \mathbf{v}_i
-\]
+$$
 
 where:
 
-\[
+$$
 \alpha(\mathbf{q}, \mathbf{k}_i) = \frac{\exp \left( \frac{\mathbf{q} \cdot \mathbf{k}_i}{\sqrt{d_k}} \right)}{\sum_{j=1}^{m} \exp \left( \frac{\mathbf{q} \cdot \mathbf{k}_j}{\sqrt{d_k}} \right)}
-\]
+$$
 
 This defines a probability distribution over the values, focusing more on the most **relevant** ones.
 
