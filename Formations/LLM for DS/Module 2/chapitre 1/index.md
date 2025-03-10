@@ -101,21 +101,53 @@ $$
 
 This defines a probability distribution over the values, focusing more on the most **relevant** ones.
 
-### Multi-Head Attention
+## Multi-Head Attention
 
-To improve learning capacity, we use **multi-head attention**, which applies multiple attention layers in parallel:
+### Motivation
 
-\[
-\text{MultiHead}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{Concat}(\text{head}_1, \dots, \text{head}_h) \mathbf{W}^O
-\]
+In real-world applications, using a single attention mechanism may **limit the model’s ability** to capture diverse relationships within a sequence. A single attention head might focus on **short-range dependencies**, while another might capture **long-range dependencies**. To **enhance the model’s flexibility**, we need a mechanism that can learn **multiple aspects of attention** simultaneously.
 
-where each attention head is computed as:
+To achieve this, instead of applying a **single attention pooling**, we transform the **queries, keys, and values** using **independently learned linear projections**. These projected representations are then **processed by multiple attention mechanisms (heads) in parallel**. Each head specializes in **extracting different types of information** from the input data.
 
-\[
-\text{head}_i = \text{Attention}(\mathbf{Q} \mathbf{W}_i^Q, \mathbf{K} \mathbf{W}_i^K, \mathbf{V} \mathbf{W}_i^V)
-\]
+Once all attention heads generate their outputs, these are **concatenated** and passed through another **learned linear transformation**. This final step integrates the information from all heads, producing a richer and more informative representation.
 
-and \( \mathbf{W}_i^Q, \mathbf{W}_i^K, \mathbf{W}_i^V \) are learnable weight matrices.
+This approach is known as **Multi-Head Attention**, where each individual attention mechanism operates as an independent **head** within the overall framework. By leveraging multiple attention heads, the model gains the ability to focus on different aspects of the input, leading to **improved contextual understanding** and **enhanced learning efficiency**.
+
+### Multi-Head Attention Mechanism
+
+Instead of applying **a single attention operation**, we **project** queries, keys, and values into multiple **subspaces** using independently learned **linear transformations**. Each subspace captures different **aspects** of the relationships between tokens.
+
+1. Each query, key, and value undergoes a learned linear transformation:
+   
+   \[
+   \mathbf{Q}_i = \mathbf{Q} \mathbf{W}_i^Q, \quad 
+   \mathbf{K}_i = \mathbf{K} \mathbf{W}_i^K, \quad
+   \mathbf{V}_i = \mathbf{V} \mathbf{W}_i^V
+   \]
+
+   where \( \mathbf{W}_i^Q, \mathbf{W}_i^K, \mathbf{W}_i^V \) are the weight matrices for the **i-th attention head**.
+
+2. Each **head** performs **scaled dot-product attention**:
+
+   \[
+   \text{head}_i = \text{Attention}(\mathbf{Q}_i, \mathbf{K}_i, \mathbf{V}_i) = \text{softmax} \left( \frac{\mathbf{Q}_i \mathbf{K}_i^T}{\sqrt{d_k}} \right) \mathbf{V}_i
+   \]
+
+3. The **outputs of all heads** are concatenated:
+
+   \[
+   \text{MultiHead}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{Concat}(\text{head}_1, \dots, \text{head}_h) \mathbf{W}^O
+   \]
+
+   where \( \mathbf{W}^O \) is a learned **output projection matrix**.
+
+### Benefits of Multi-Head Attention
+
+- **Captures different types of dependencies** within a sequence.
+- **Attends to information at multiple representation subspaces**.
+- **Improves model robustness** by allowing different perspectives on data.
+
+Multi-Head Attention is a **core component of the Transformer architecture**, enabling it to process contextual information efficiently. 
 
 ### Summary
 
@@ -126,6 +158,6 @@ and \( \mathbf{W}_i^Q, \mathbf{W}_i^K, \mathbf{W}_i^V \) are learnable weight ma
 
 This mechanism is the foundation of **Transformers**, enabling powerful architectures like **GPT, BERT, and T5**.
 
-```
+Some intuition might help here: for instance, in a regression setting, the query might correspond to the location where the regression should be carried out. The keys are the locations where past data was observed and the values are the (regression) values themselves.
 
-This Markdown format keeps equations properly formatted using LaTeX while maintaining readability. Let me know if you need refinements! 🚀
+By design, the attention mechanism provides a differentiable means of control by which a neural network can select elements from a set and to construct an associated weighted sum over representations.
