@@ -1,3 +1,8 @@
+---
+layout: default
+title: Rotary Positional Embedding (RoPE)
+---
+
 # Rotary Positional Embedding (RoPE)
 
 Rotary Positional Embedding (RoPE) is an **innovative approach** to incorporating **relative positional information** into Transformer-based models. Unlike fixed or learned absolute embeddings, RoPE encodes positions by **rotating** token embeddings in a continuous vector space, allowing the **dot product** between two position-encoded tokens to depend only on their **relative positions**.
