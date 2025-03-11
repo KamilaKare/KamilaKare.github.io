@@ -46,13 +46,11 @@ attention pools the values via weights $ \alpha(\mathbf{q}, \mathbf{k}_i)$
 
 where $\alpha(\mathbf{q}, \mathbf{k}_i)$ are attention weights.
 
-### Attention Pooling
+\eqref{attention} is called **Attention Pooling**. The attention weights $\alpha(\mathbf{q}, \mathbf{k}_i)$ have specific properties:
 
-The attention weights \( \alpha(\mathbf{q}, \mathbf{k}_i) \) have specific properties:
-
-- They are **nonnegative**: \( \alpha(\mathbf{q}, \mathbf{k}_i) \geq 0 \), The model never assigns negative importance.
-- They form a **convex combination**: \( \sum_{i} \alpha(\mathbf{q}, \mathbf{k}_i) = 1 \).
-- If all weights are **equal** (\(\alpha = \frac{1}{m}\)), we’re simply averaging all $\mathbf{v}_i$ equally, which is a naive baseline..
+- They are **nonnegative**:  $\alpha(\mathbf{q}, \mathbf{k}_i) \geq 0 $, The model never assigns negative importance.
+- They form a **convex combination**: $ \sum_{i} \alpha(\mathbf{q}, \mathbf{k}_i) = 1 $.
+- If all weights are **equal** $(\alpha = \frac{1}{m}$), we’re simply averaging all $\mathbf{v}_i$ equally, which is a naive baseline..
 
 The beauty of attention is that it learns to focus on the relevant keys (and thus their values) based on the query, effectively performing a data-driven weighting akin to nonparametric smoothing.
 
