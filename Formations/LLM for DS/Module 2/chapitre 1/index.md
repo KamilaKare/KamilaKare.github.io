@@ -12,7 +12,7 @@ title: Transformer Building Blocks
 Let’s assume we have some data points:
 
 $$
-\mathcal{D} = \big\{ (x_1, y_1), (x_2, y_2), \dots, (x_n, y_n) \big\} \in \mathbb{R}^d, \quad d \geq 1
+\mathcal{D} = \big\{ (x_1, y_1), (x_2, y_2), \dots, (x_n, y_n) \in \mathbb{R}^d, \quad d \geq 1\big\}.
 $$
 
 We want to predict $y$ for a new input $x$. 
