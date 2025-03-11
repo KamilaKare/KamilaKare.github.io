@@ -10,11 +10,13 @@ title: Transformer Building Blocks
 ### Motivation
 
 Let’s assume we have some data points:
+
 $$
 \mathcal{D} = \big\{ (x_1, y_1), (x_2, y_2), \dots, (x_n, y_n) \big\} \in \mathbb{R}^d, \quad d \geq 1
 $$
+
 We want to predict $y$ for a new input $x$. 
-Given a new input $ x$, how do we estimate $ y $?  
+Given a new input $x$, how do we estimate $ y $?  
 A classic nonparametric regression approach (Nadaraya–Watson) suggests, we can estimate $ y $ using a weighted sum of observed values:
 
 $$
@@ -25,21 +27,24 @@ where $\alpha$ is  a **kernel function** that determines how similar $x$ is to e
 with weights depending on the similarity $\alpha(x, x_i)$. 
 
 ### Connecting to Attention
+Some intuition might help here: for instance, in a regression setting, the query might correspond to the location where the regression should be carried out. The keys are the locations where past data was observed and the values are the (regression) values themselves.
+
 
 The **attention mechanism** extends this idea. Instead of input-output pairs $ (x_i, y_i) $, we define:
 
-- **Keys $(\mathbf{k}_i)$**: Analogous to the $x_i$ in nonparametric regression, each token has a key vector that represents “where” it might be relevant.
-- **Values (\(\mathbf{v}_i\))**: Analogous to $y_i$, each token has a value vector that contains the actual content or information to be retrieved ( content associated with each key).
-- **Query (\(\mathbf{q}\))**: Analogous to the new input $x$. It's what we use to figure out which \(\mathbf{k}_i\) are most relevant.
+- **Keys $(\mathbf{k}_i)$**: Analogous to the $x_i$ in nonparametric regression, each token has a key vector that represents “where” it might be relevant, i.e. the locations where relevants tokens can be found.
+- **Values $\mathbf{v}_i$**: Analogous to $y_i$, each token has a value vector that contains the actual content or information to be retrieved ( content associated with each key).
+- **Query $\mathbf{q}$**: Analogous to the new input $x$. It's what we use to figure out which $\mathbf{k}_i$ are most relevant.
 
-Now, given a **database** $\mathcal{D} = \{(\mathbf{k}_1, \mathbf{v}_1), (\mathbf{k}_2, \mathbf{v}_2), \dots, (\mathbf{k}_m, \mathbf{v}_m)\}$ of key-value pairs. For a given query $\mathbf{q}$,
+Now, given a **database** $\mathcal{D} = \big\{(\mathbf{k}_1, \mathbf{v}_1), (\mathbf{k}_2, \mathbf{v}_2), \dots, (\mathbf{k}_m, \mathbf{v}_m) \big\}$ of key-value pairs. For a given query $\mathbf{q}$,
 attention pools the values via weights $ \alpha(\mathbf{q}, \mathbf{k}_i)$
 
-$$
+\begin{equation}
 \text{Attention}(\mathbf{q}, \mathcal{D}) = \sum_{i=1}^{m} \alpha(\mathbf{q}, \mathbf{k}_i) \mathbf{v}_i
-$$
+\label{attention}
+\end{equation}
 
-where \( \alpha(\mathbf{q}, \mathbf{k}_i) \) are attention weights.
+where $\alpha(\mathbf{q}, \mathbf{k}_i)$ are attention weights.
 
 ### Attention Pooling
 
@@ -149,6 +154,32 @@ Instead of applying **a single attention operation**, we **project** queries, ke
 
 Multi-Head Attention is a **core component of the Transformer architecture**, enabling it to process contextual information efficiently. 
 
+## 1.2 Self-Attention  
+### Understanding Self-Attention
+In deep learning, we often use **CNNs** or **RNNs** to encode sequences. However, with **attention mechanisms**, we can process sequences differently.  
+
+Imagine feeding a sequence of tokens into an attention mechanism where each token has its **own query, key, and value**. When computing a token’s representation at the next layer:
+- The token **attends** to all other tokens based on the compatibility of its **query** with their **keys**.
+- Using these query-key scores, a **weighted sum** over the values is computed.
+- This weighted sum forms the new representation of the token.  
+
+Since **each token attends to every other token**, these architectures are called **self-attention models** (Lin et al., 2017; Vaswani et al., 2017). 
+
+### formula
+
+
+Given a sequence of input tokens **\( x_1, x_2, \dots, x_n \)**, where each **\( x_i \in \mathbb{R}^d \)** for **\( 1 \leq i \leq n \)**, self-attention computes an output sequence of the same length **\( y_1, y_2, \dots, y_n \)**, where:
+
+\[
+\mathbf{y}_i = f(\mathbf{x}_i, (\mathbf{x}_1, \mathbf{x}_1), \dots, (\mathbf{x}_n, \mathbf{x}_n)) \in \mathbb{R}^d
+\]
+
+according to the definition of **attention pooling**.  
+
+  
+
+
+
 ### Summary
 
 - The **dot-product attention** scores the similarity between queries and keys.
@@ -158,6 +189,62 @@ Multi-Head Attention is a **core component of the Transformer architecture**, en
 
 This mechanism is the foundation of **Transformers**, enabling powerful architectures like **GPT, BERT, and T5**.
 
-Some intuition might help here: for instance, in a regression setting, the query might correspond to the location where the regression should be carried out. The keys are the locations where past data was observed and the values are the (regression) values themselves.
 
 By design, the attention mechanism provides a differentiable means of control by which a neural network can select elements from a set and to construct an associated weighted sum over representations.
+
+---
+## 1.2 Positional Encoding 
+### Why Do We Need Positional Encoding?  
+
+Unlike RNNs, which process input sequentially and inherently capture order information, the Transformer architecture processes all tokens in parallel. While this enables faster training and better scalability, it also means that Transformers have no built-in way to understand the order of tokens in a sequence.  
+
+To address this, **Positional Encoding** is introduced to inject information about the relative or absolute positions of tokens within a sequence. This helps the model capture the sequence structure while maintaining the benefits of parallel computation.  
+
+## 2. Absolute Positional Encoding
+
+### 2.1 Sinusoidal Encodings
+
+Introduced by *Vaswani et al. (2017)*, **sinusoidal positional encodings** generate a deterministic set of vectors using sine and cosine functions of varying frequencies:
+
+\[
+PE_{\text{pos}, 2i} = \sin\Bigl(\frac{\text{pos}}{10000^{2i/d}}\Bigr), \quad
+PE_{\text{pos}, 2i+1} = \cos\Bigl(\frac{\text{pos}}{10000^{2i/d}}\Bigr)
+\]
+
+- \(\text{pos}\) = position index in the sequence.
+- \(d\) = dimensionality of the embedding.
+- \(i\) = dimension index (split into even and odd parts for sine and cosine).
+
+**Why Sine and Cosine?**  
+- Provides continuous variation for each dimension.
+- Encourages the model to learn “phase shifts” that represent relative distances between positions.
+
+### 2.2 Learned Absolute Position Embeddings
+
+Instead of a fixed sinusoidal pattern, some models use a **trainable embedding vector** \(\mathbf{p}_{\text{pos}}\) for each position \(\text{pos}\). These vectors are typically initialized randomly and learned jointly with other model parameters.
+
+---
+## 3. Relative Positional Encoding
+
+### 3.1 Concept
+
+Rather than focusing on each token’s absolute position, **relative positional encoding** captures how far apart two tokens are. This can be crucial when local context is more relevant than exact indices. For example, in some tasks, token 10 and token 11 might have a stronger relationship than token 1 and token 10, purely due to proximity.
+
+### 3.2 Mechanism
+
+Often implemented by **modifying attention** with a term that depends on the relative distance between tokens. One simple approach:
+
+\[
+\text{Attention}(Q, K, V) \;=\;
+\text{softmax}\Bigl(\frac{QK^\top + R}{\sqrt{d_k}}\Bigr)V,
+\]
+
+where \(R\) is a learned matrix encoding pairwise distances between tokens (e.g., token \(i\) vs. token \(j\)). This bias highlights or de-emphasizes tokens based on how close or far they are in the sequence.
+
+### 3.3 Advanced Methods
+
+- **Rotary Positional Embedding (RoPE)**: Rotates token embeddings in a multidimensional space based on position, ensuring that the dot product depends only on relative positions. :contentReference[oaicite:0]{index=0}
+- **ALiBi**: Adds a linear bias term to the attention score to represent the distance between tokens. :contentReference[oaicite:1]{index=1}
+
+### ROPE
+
