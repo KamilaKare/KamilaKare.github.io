@@ -25,11 +25,8 @@ $$
 where $\alpha$ is  a **[kernel function](https://github.com/KamilaKare/KamilaKare.github.io/blob/main/Formations/LLM%20for%20DS/Module%200/index.md)$$ that determines how similar $x$ is to each $x_i$. The resulting $\hat{y}$ is a weighted average of the observed $y_i$ 
 with weights depending on the similarity $\alpha(x, x_i)$. 
 
-#### 
 
 ### Connecting to Attention
-Some intuition might help here: for instance, in a regression setting, the query might correspond to the location where the regression should be carried out. The keys are the locations where past data was observed and the values are the (regression) values themselves.
-
 
 The **attention mechanism** extends this idea. Instead of input-output pairs $ (x_i, y_i) $, we define:
 
@@ -37,7 +34,14 @@ The **attention mechanism** extends this idea. Instead of input-output pairs $ (
 - **Values $\mathbf{v}_i$**: Analogous to $y_i$, each token has a value vector that contains the actual content or information to be retrieved ( content associated with each key).
 - **Query $\mathbf{q}$**: Analogous to the new input $x$. It's what we use to figure out which $\mathbf{k}_i$ are most relevant.
 
-Now, given a **database** $\mathcal{D} = \big\{(\mathbf{k}_1, \mathbf{v}_1), (\mathbf{k}_2, \mathbf{v}_2), \dots, (\mathbf{k}_m, \mathbf{v}_m) \big\}$ of key-value pairs. For a given query $\mathbf{q}$,
+Some intuition might help here: for instance, in a regression setting, the query might correspond to the location where the regression should be carried out. The keys are the locations where past data was observed and the values are the (regression) values themselves.
+
+
+Now, given a **database** 
+
+$$\mathcal{D} = \big\{(\mathbf{k}_1, \mathbf{v}_1), (\mathbf{k}_2, \mathbf{v}_2), \dots, (\mathbf{k}_m, \mathbf{v}_m) \big\}$$
+
+of key-value pairs. For a given query $\mathbf{q}$,
 attention pools the values via weights $ \alpha(\mathbf{q}, \mathbf{k}_i)$
 
 \begin{equation}
@@ -53,26 +57,19 @@ where $\alpha(\mathbf{q}, \mathbf{k}_i)$ are attention weights.
 - They form a **convex combination**: $ \sum_{i} \alpha(\mathbf{q}, \mathbf{k}_i) = 1 $.
 - If all weights are **equal** $(\alpha = \frac{1}{m}$), we’re simply averaging all $\mathbf{v}_i$ equally, which is a naive baseline..
 
-The beauty of attention is that it learns to focus on the relevant keys (and thus their values) based on the query, effectively performing a data-driven weighting akin to nonparametric smoothing.
+The beauty of attention lies in its ability to help the model learn to focus on the most relevant keys (and thus their values) based on the query, effectively performing a data-driven weighting akin to nonparametric smoothing.
 
-### Scaling to Large Models
 
-In modern Transformer networks, the function $ \alpha(\mathbf{q}, \mathbf{k}_i) $ is often computed as:
+This figure illustrates how the attention is computed in modern Transformer networks.
 
-$$
-\alpha(\mathbf{q}, \mathbf{k}_i) \propto \exp \left( \frac{\mathbf{q} \cdot \mathbf{k}_i}{\sqrt{d_k}} \right)
-$$
+{% include image.html src="[https://github.com/user-attachments/assets/651f0ee9-3f0f-4c57-b5ec-20dbf87f722c](https://github.com/user-attachments/assets/9e9a4a9d-2416-45ea-b49c-1428feffbc2a)" alt="Attention computation" caption="Attention computation." %}
 
-followed by a **softmax** operation to normalize the weights. This resembles a **learned kernel function** that adapts based on the training data.
 
-![image](https://github.com/user-attachments/assets/9e9a4a9d-2416-45ea-b49c-1428feffbc2a)
-
-mettre attention avec softmax
 
 This perspective helps us understand why attention mechanisms are so powerful: they **dynamically select the most relevant “neighbors”** in the dataset and **combine their values** based on similarity to the query.
 
 
-## Attention Mechanism Formula
+### Attention Mechanism Formula
 
 Given a set of **queries** $ \mathbf{Q} $, **keys** $ \mathbf{K} $, and **values** $ \mathbf{V} $, the attention mechanism computes an output as a weighted sum of values:
 
@@ -105,9 +102,7 @@ $$
 
 This defines a probability distribution over the values, focusing more on the most **relevant** ones.
 
-## Multi-Head Attention
-
-### Motivation
+### Multi-Head Attention
 
 In real-world applications, using a single attention mechanism may **limit the model’s ability** to capture diverse relationships within a sequence. A single attention head might focus on **short-range dependencies**, while another might capture **long-range dependencies**. To **enhance the model’s flexibility**, we need a mechanism that can learn **multiple aspects of attention** simultaneously.
 
@@ -117,35 +112,35 @@ Once all attention heads generate their outputs, these are **concatenated** and 
 
 This approach is known as **Multi-Head Attention**, where each individual attention mechanism operates as an independent **head** within the overall framework. By leveraging multiple attention heads, the model gains the ability to focus on different aspects of the input, leading to **improved contextual understanding** and **enhanced learning efficiency**.
 
-### Multi-Head Attention Mechanism
+#### Multi-Head Attention Mechanism
 
 Instead of applying **a single attention operation**, we **project** queries, keys, and values into multiple **subspaces** using independently learned **linear transformations**. Each subspace captures different **aspects** of the relationships between tokens.
 
 1. Each query, key, and value undergoes a learned linear transformation:
    
-   \[
+   $$
    \mathbf{Q}_i = \mathbf{Q} \mathbf{W}_i^Q, \quad 
    \mathbf{K}_i = \mathbf{K} \mathbf{W}_i^K, \quad
    \mathbf{V}_i = \mathbf{V} \mathbf{W}_i^V
-   \]
+   $$
 
-   where \( \mathbf{W}_i^Q, \mathbf{W}_i^K, \mathbf{W}_i^V \) are the weight matrices for the **i-th attention head**.
+   where $ \mathbf{W}_i^Q, \mathbf{W}_i^K, \mathbf{W}_i^V $ are the weight matrices for the **i-th attention head**.
 
 2. Each **head** performs **scaled dot-product attention**:
 
-   \[
+   $$
    \text{head}_i = \text{Attention}(\mathbf{Q}_i, \mathbf{K}_i, \mathbf{V}_i) = \text{softmax} \left( \frac{\mathbf{Q}_i \mathbf{K}_i^T}{\sqrt{d_k}} \right) \mathbf{V}_i
-   \]
+   $$
 
 3. The **outputs of all heads** are concatenated:
 
-   \[
+   $$
    \text{MultiHead}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{Concat}(\text{head}_1, \dots, \text{head}_h) \mathbf{W}^O
-   \]
+   $$
 
-   where \( \mathbf{W}^O \) is a learned **output projection matrix**.
+   where $ \mathbf{W}^O $ is a learned **output projection matrix**.
 
-### Benefits of Multi-Head Attention
+#### Benefits of Multi-Head Attention
 
 - **Captures different types of dependencies** within a sequence.
 - **Attends to information at multiple representation subspaces**.
