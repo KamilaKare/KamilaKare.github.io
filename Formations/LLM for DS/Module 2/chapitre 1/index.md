@@ -15,16 +15,17 @@ $$
 \mathcal{D} = \big\{ (x_1, y_1), (x_2, y_2), \dots, (x_n, y_n) \in \mathbb{R}^d, \quad d \geq 1\big\}.
 $$
 
-We want to predict $y$ for a new input $x$. 
 Given a new input $x$, how do we estimate $ y $?  
 A classic nonparametric regression approach (Nadaraya–Watson) suggests, we can estimate $ y $ using a weighted sum of observed values:
 
 $$
-\hat{y} = \sum_{i=1}^{n} \alpha(x, x_i) y_i
+\hat{y} = \sum_{i=1}^{n} \alpha(x, x_i) \; y_i
 $$
 
-where $\alpha$ is  a **kernel function** that determines how similar $x$ is to each $x_i$. The resulting $\hat{y}$ is a weighted average of the observed $y_i$ 
+where $\alpha$ is  a **[kernel function](https://github.com/KamilaKare/KamilaKare.github.io/blob/main/Formations/LLM%20for%20DS/Module%200/index.md)$$ that determines how similar $x$ is to each $x_i$. The resulting $\hat{y}$ is a weighted average of the observed $y_i$ 
 with weights depending on the similarity $\alpha(x, x_i)$. 
+
+#### 
 
 ### Connecting to Attention
 Some intuition might help here: for instance, in a regression setting, the query might correspond to the location where the regression should be carried out. The keys are the locations where past data was observed and the values are the (regression) values themselves.
