@@ -44,6 +44,11 @@ $$\mathcal{D} = \big\{(\mathbf{k}_1, \mathbf{v}_1), (\mathbf{k}_2, \mathbf{v}_2)
 of key-value pairs. For a given query $\mathbf{q}$,
 attention pools the values via weights $ \alpha(\mathbf{q}, \mathbf{k}_i)$
 
+\[
+\text{Attention}(\mathbf{q}, \mathcal{D}) = \sum_{i=1}^{m} \alpha(\mathbf{q}, \mathbf{k}_i) \mathbf{v}_i
+\label{attention}
+\]
+
 \begin{equation}
 \text{Attention}(\mathbf{q}, \mathcal{D}) = \sum_{i=1}^{m} \alpha(\mathbf{q}, \mathbf{k}_i) \mathbf{v}_i
 \label{attention}
