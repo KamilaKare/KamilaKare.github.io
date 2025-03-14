@@ -11,6 +11,8 @@ With the key **building blocks** (multi-head attention, feed-forward networks, p
 
 ## 1. Model Overview
 
+{% include image.html src="https://github.com/user-attachments/assets/00c6e273-9175-4083-9b3a-97089aebeb40" alt="The Transformer Architecture" caption="The Transformer Architecture." %}
+
 A **Transformer** processes sequences in parallel, using **attention** mechanisms instead of recurrence or convolution to capture dependencies. It typically consists of:
 
 1. **Encoder**: A stack of identical layers that encodes the source sequence into a set of continuous representations.  
@@ -23,7 +25,8 @@ Each **encoder** and **decoder** layer includes:
 
 Additionally, **positional encoding** is added to each token’s embedding to preserve sequence order.
 
-{% include image.html src="https://github.com/user-attachments/assets/9e9a4a9d-2416-45ea-b49c-1428feffbc2a" alt="The Transformer Architecture" caption="The Transformer Architecture." %}
+
+
 
 ---
 
