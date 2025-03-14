@@ -61,8 +61,7 @@ The beauty of attention lies in its ability to help the model learn to focus on 
 
 This figure illustrates how the attention is computed in modern Transformer networks.
 
-{% include image.html src="[https://github.com/user-attachments/assets/651f0ee9-3f0f-4c57-b5ec-20dbf87f722c](https://github.com/user-attachments/assets/9e9a4a9d-2416-45ea-b49c-1428feffbc2a)" alt="Attention computation" caption="Attention computation." %}
-
+{% include image.html src="https://github.com/user-attachments/assets/651f0ee9-3f0f-4c57-b5ec-20dbf87f722c" alt="Attention computation" caption="Attention computation." %}
 
 
 This perspective helps us understand why attention mechanisms are so powerful: they **dynamically select the most relevant “neighbors”** in the dataset and **combine their values** based on similarity to the query.
