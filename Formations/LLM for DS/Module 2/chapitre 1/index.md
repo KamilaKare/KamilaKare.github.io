@@ -72,7 +72,7 @@ This perspective helps us understand why attention mechanisms are so powerful: t
 Given a set of **queries** $ \mathbf{Q} $, **keys** $ \mathbf{K} $, and **values** $ \mathbf{V} $, the attention mechanism computes an output as a weighted sum of values:
 
 $$
-\text{Attention}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{softmax} \left( \frac{\mathbf{Q} \mathbf{K}^T}{\sqrt{d_k}} \right) \mathbf{V}
+\text{Attention}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{softmax} \left( \frac{\mathbf{Q} \mathbf{K}^T}{\sqrt{d_k}} \right) \mathbf{V} \tag{2}
 $$
 
 where:
@@ -86,13 +86,7 @@ where:
 
 ### Expanded Form
 
-For a single query $ \mathbf{q} $ and a database $ \mathcal{D} = \{ (\mathbf{k}_1, \mathbf{v}_1), \dots, (\mathbf{k}_m, \mathbf{v}_m) \} $, attention is computed as:
-
-$$
-\text{Attention}(\mathbf{q}, \mathcal{D}) = \sum_{i=1}^{m} \alpha(\mathbf{q}, \mathbf{k}_i) \mathbf{v}_i
-$$
-
-where:
+Considering Equations (1) and (2), as a result from identification, we have
 
 $$
 \alpha(\mathbf{q}, \mathbf{k}_i) = \frac{\exp \left( \frac{\mathbf{q} \cdot \mathbf{k}_i}{\sqrt{d_k}} \right)}{\sum_{j=1}^{m} \exp \left( \frac{\mathbf{q} \cdot \mathbf{k}_j}{\sqrt{d_k}} \right)}
@@ -100,7 +94,7 @@ $$
 
 This defines a probability distribution over the values, focusing more on the most **relevant** ones.
 
-### Multi-Head Attention
+## 1.2 Multi-Head Attention
 
 In real-world applications, using a single attention mechanism may **limit the model’s ability** to capture diverse relationships within a sequence. A single attention head might focus on **short-range dependencies**, while another might capture **long-range dependencies**. To **enhance the model’s flexibility**, we need a mechanism that can learn **multiple aspects of attention** simultaneously.
 
@@ -111,8 +105,7 @@ Once all attention heads generate their outputs, these are **concatenated** and 
 This approach is known as **Multi-Head Attention**, where each individual attention mechanism operates as an independent **head** within the overall framework. By leveraging multiple attention heads, the model gains the ability to focus on different aspects of the input, leading to **improved contextual understanding** and **enhanced learning efficiency**.
 
 #### Multi-Head Attention Mechanism
-
-Instead of applying **a single attention operation**, we **project** queries, keys, and values into multiple **subspaces** using independently learned **linear transformations**. Each subspace captures different **aspects** of the relationships between tokens.
+(slides, Instead of applying **a single attention operation**, we **project** queries, keys, and values into multiple **subspaces** using independently learned **linear transformations**. Each subspace captures different **aspects** of the relationships between tokens.)
 
 1. Each query, key, and value undergoes a learned linear transformation:
    
@@ -168,13 +161,14 @@ $$
 according to the definition of **attention pooling** (1).  
 
   
-
+(slides
 ### Summary
 
 - The **dot-product attention** scores the similarity between queries and keys.
 - The **softmax operation** normalizes these scores into attention weights.
 - The **weighted sum of values** gives the output representation.
 - **Multi-head attention** enables multiple perspectives on the same input.
+)
 
 This mechanism is the foundation of **Transformers**, enabling powerful architectures like **GPT, BERT, and T5**.
 By design, the attention mechanism provides a differentiable means of control by which a neural network can select elements from a set and to construct an associated weighted sum over representations.
@@ -187,9 +181,9 @@ Unlike RNNs, which process input sequentially and inherently capture order infor
 
 To address this, **Positional Encoding** is introduced to inject information about the relative or absolute positions of tokens within a sequence. This helps the model capture the sequence structure while maintaining the benefits of parallel computation.  
 
-## 2. Absolute Positional Encoding
+## 1.2.1 Absolute Positional Encoding
 
-### 2.1 Sinusoidal Encodings
+#### 1.2.1.1 Sinusoidal Encodings
 
 Introduced by *Vaswani et al. (2017)*, **sinusoidal positional encodings** generate a deterministic set of vectors using sine and cosine functions of varying frequencies:
 
@@ -200,23 +194,23 @@ $$
 
 - $\text{pos}$ = position index in the sequence.
 - $d$ = dimensionality of the embedding.
-- i$ = dimension index (split into even and odd parts for sine and cosine).
+- $i$ = dimension index (split into even and odd parts for sine and cosine).
 
 **Why Sine and Cosine?**  
 These formulas leverage sine and cosine functions to generate wave-like patterns that change with sequence positions. By applying sine to even indices and cosine to odd indices, they create a diverse set of features that effectively encode positional information across varying sequence lengths.
 
-### 2.2 Learned Absolute Position Embeddings
+#### 1.2.1.2 Learned Absolute Position Embeddings
 
-Instead of a fixed sinusoidal pattern, some models use a **trainable embedding vector** \(\mathbf{p}_{\text{pos}}\) for each position \(\text{pos}\). These vectors are typically initialized randomly and learned jointly with other model parameters.
+Instead of a fixed sinusoidal pattern, some models use a **trainable embedding vector** $\mathbf{p}_{\text{pos}}$ for each position $\text{pos}$. These vectors are typically initialized randomly and learned jointly with other model parameters.
 
 ---
-## 3. Relative Positional Encoding
+## 1.2.3 Relative Positional Encoding
 
-### 3.1 Concept
+### 1.2.3.1 Concept
 
 Rather than focusing on each token’s absolute position, **relative positional encoding** captures how far apart two tokens are. This can be crucial when local context is more relevant than exact indices. For example, in some tasks, token 10 and token 11 might have a stronger relationship than token 1 and token 10, purely due to proximity.
 
-### 3.2 Mechanism
+### 1.2.3.2 Mechanism
 
 Often implemented by **modifying attention** with a term that depends on the relative distance between tokens. One simple approach:
 
@@ -227,9 +221,9 @@ $$
 
 where $R$ is a learned matrix encoding pairwise distances between tokens (e.g., token $i$ vs. token $j$). This bias highlights or de-emphasizes tokens based on how close or far they are in the sequence.
 
-### 3.3 Advanced Methods
+### 1.2.3.3 Advanced Methods
 
-- **Rotary Positional Embedding (RoPE)**: Rotates token embeddings in a multidimensional space based on position, ensuring that the dot product depends only on relative positions. More [here](https://github.com/KamilaKare/KamilaKare.github.io/blob/main/Formations/LLM%20for%20DS/Module%200/ROPE.md).
+- **Rotary Positional Embedding (RoPE)**: Rotates token embeddings in a multidimensional space based on position, ensuring that the dot product depends only on relative positions. Follow this link to learn more on [RoPE](https:KamilaKare.github.io/edit/main/Formations/LLM%20for%20DS/Module%200/ROPE.md).
 - **ALiBi**: Adds a linear bias term to the attention score to represent the distance between tokens.
 
 
