@@ -226,16 +226,15 @@ where $R$ is a learned matrix encoding pairwise distances between tokens (e.g., 
 - **Rotary Positional Embedding (RoPE)**: Rotates token embeddings in a multidimensional space based on position, ensuring that the dot product depends only on relative positions. Follow this link to learn more on [RoPE](https:KamilaKare.github.io/edit/main/Formations/LLM%20for%20DS/Module%200/ROPE.md).
 - **ALiBi**: Adds a linear bias term to the attention score to represent the distance between tokens.
 
+---
 
-# Feed-Forward Layers in the Transformer
+## 1.3 Feed-Forward Layers in the Transformer
 
 After the **attention** sub-layer (whether self-attention or cross-attention), each position in the sequence passes through a **feed-forward** network. This step **increases the model’s capacity** to transform and represent information, operating on each token **independently**.
 
----
+### 1.3.1 Position-Wise Feed-Forward Network
 
-## 1. Position-Wise Feed-Forward Network
-
-### 1.1 Core Idea
+#### 1.3.1.1 Core Idea
 
 In Transformers, the feed-forward network (FFN) is applied **independently** to each token’s representation. That means for every token $\mathbf{x}_i$, we perform:
 
@@ -245,7 +244,7 @@ $$
 
 where $\mathbf{z}_i$ is the output of the feed-forward network for token $i$. Since this transformation is the same for every token, it’s called **position-wise**.
 
-### 1.2 Architecture
+#### 1.3.1.2 Architecture
 
 A typical feed-forward network consists of **two linear transformations** with an activation function (e.g., **ReLU** or **GELU**) in between:
 
@@ -265,22 +264,20 @@ $$
 - **$\mathbf{W}_2, \mathbf{b}_2$**: second linear layer parameters
 - **$\text{Activation}$**: often **ReLU** or **GELU**
 
-### 1.3 Dimensionality
+### 1.3.1.3 Dimensionality
 
 - If the embedding dimension is $d_{\text{model}}$, the hidden layer often has a larger dimension (e.g., \(4 \times d_{\text{model}}\)).
 - This **expansion** allows the network to learn a richer set of transformations before projecting back to \(d_{\text{model}}\).
 
----
-
-## 2. Why Do We Need a Feed-Forward Network?
+### 1.3.2 Why Do We Need a Feed-Forward Network?
 
 1. **Increased Capacity**: The attention mechanism handles **contextual mixing** across tokens, but the feed-forward layer gives **per-token nonlinearity** to expand representational power.
 2. **Position-Wise Independence**: Each token can be transformed **individually**, allowing the model to learn transformations that are not solely dependent on cross-token relationships.
 3. **Flexibility**: By varying hidden-layer size, activation, or number of layers, we can tune the network to different tasks and data scales.
 
----
 
-## 3. Integration with Other Sub-Layers
+
+### 1.3.3 Integration with Other Sub-Layers
 
 1. **Residual Connections**: As in the rest of the Transformer, the FFN output is **added** to the sub-layer input (residual connection) and then **normalized** (LayerNorm).
 2. **Dropout**: Often applied between or after linear transformations to **reduce overfitting**.
@@ -290,42 +287,20 @@ $$
 
 ---
 
-## 4. Example Pseudocode
-
-```python
-import torch
-import torch.nn as nn
-
-class PositionWiseFFN(nn.Module):
-    def __init__(self, d_model, d_ff, activation=nn.ReLU()):
-        super().__init__()
-        self.linear1 = nn.Linear(d_model, d_ff)
-        self.activation = activation
-        self.linear2 = nn.Linear(d_ff, d_model)
-    
-    def forward(self, x):
-        # x shape: (batch_size, seq_len, d_model)
-        # Apply the first linear transformation + activation
-        out = self.activation(self.linear1(x))
-        # Apply the second linear transformation
-        out = self.linear2(out)
-        return out
-
-
-# Residual Connections & Layer Normalization
+## 1.4 Residual Connections & Layer Normalization
 
 In a Transformer block, **residual connections** and **layer normalization** play a crucial role in stabilizing training and ensuring the flow of gradients. They are used around both the **multi-head attention** sub-layer and the **feed-forward** sub-layer.
 
 ---
 
-## 1. Residual Connections
+## 1.4.1 Residual Connections
 
-### 1.1 Motivation
+### 1.4.1.1 Motivation
 
 - **Deep Neural Networks**: As models get deeper, gradients can vanish or explode, making training difficult.
 - **Shortcut Paths**: Residual (or skip) connections provide a direct path for gradients, enabling **more stable** and **faster** training.
 
-### 1.2 Definition
+### 1.4.1.2 Definition
 
 A **residual connection** adds the input of a sub-layer to its output. If $\mathbf{x}$ is the input and $ \text{SubLayer}(\mathbf{x})$ is some transformation (e.g., attention or feed-forward), the output becomes:
 
@@ -335,17 +310,16 @@ $$
 
 This helps preserve the **original representation** and lets the sub-layer learn **incremental refinements**.
 
-### 1.3 Benefits
+### 1.4.1.3 Benefits
 
 1. **Eases Optimization**: The sub-layer only needs to learn a “residual” function, often making training more stable.
 2. **Better Gradient Flow**: Gradients can bypass the sub-layer if needed, mitigating vanishing/exploding gradients.
 3. **Deeper Architectures**: Residual connections enable building deeper networks without losing trainability.
 
----
 
-## 2. Layer Normalization
+### 1.4.2. Layer Normalization
 
-### 2.1 Concept
+#### 1.4.2.1 Concept
 
 Unlike **batch normalization**, which normalizes across the batch dimension, **layer normalization** normalizes the features across each sample independently. For an input $\mathbf{h} \in \mathbb{R}^{d}$:
 
@@ -358,7 +332,7 @@ where:
 - $\sigma$ is the standard deviation across the same dimension,
 - $\gamma$ and $\beta$ are learnable parameters for scaling and shifting.
 
-### 2.2 Why LayerNorm?
+#### 1.4.2.2 Why LayerNorm?
 
 1. **Parallelization**: LayerNorm does not depend on the batch size, making it easier to handle variable batch sizes or sequences.
 2. **Stabilized Activations**: By normalizing across features, the model’s activations stay within a manageable range.
@@ -374,41 +348,10 @@ $$
 \mathbf{x}' = \text{LayerNorm}\Bigl(\mathbf{x} + \text{SubLayer}(\mathbf{x})\Bigr)
 $$
 
-This pattern is repeated throughout the **encoder** and **decoder** blocks.
+This pattern is repeated throughout the **encoder** and **decoder** blocks. By chaining these sub-layers with **residual connections** and **layer normalization**, Transformers can train deep architectures effectively.
 
----
 
-## 3. Putting It All Together
 
-A typical Transformer block sub-layer pipeline looks like:
 
-1. **Input** \(\mathbf{x}\)
-2. **Sub-layer** (e.g., multi-head attention or feed-forward)
-3. **Add** (residual): \(\mathbf{x} + \text{SubLayer}(\mathbf{x})\)
-4. **LayerNorm**: normalizes the combined representation
-
-By chaining these sub-layers with **residual connections** and **layer normalization**, Transformers can train deep architectures effectively.
-
----
-
-## 4. Example Pseudocode
-
-```python
-import torch
-import torch.nn as nn
-
-class TransformerSubLayer(nn.Module):
-    def __init__(self, sublayer, d_model):
-        super().__init__()
-        self.sublayer = sublayer  # e.g. attention or feed-forward
-        self.norm = nn.LayerNorm(d_model)
-    
-    def forward(self, x):
-        # Apply sub-layer
-        out = self.sublayer(x)
-        # Add residual connection
-        out = x + out
-        # Apply layer normalization
-        return self.norm(out)
 
 
