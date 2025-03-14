@@ -44,19 +44,13 @@ $$\mathcal{D} = \big\{(\mathbf{k}_1, \mathbf{v}_1), (\mathbf{k}_2, \mathbf{v}_2)
 of key-value pairs. For a given query $\mathbf{q}$,
 attention pools the values via weights $ \alpha(\mathbf{q}, \mathbf{k}_i)$
 
-\[
-\text{Attention}(\mathbf{q}, \mathcal{D}) = \sum_{i=1}^{m} \alpha(\mathbf{q}, \mathbf{k}_i) \mathbf{v}_i
-\label{attention}
-\]
-
-\begin{equation}
-\text{Attention}(\mathbf{q}, \mathcal{D}) = \sum_{i=1}^{m} \alpha(\mathbf{q}, \mathbf{k}_i) \mathbf{v}_i
-\label{attention}
-\end{equation}
+$$
+\text{Attention}(\mathbf{q}, \mathcal{D}) = \sum_{i=1}^{m} \alpha(\mathbf{q}, \mathbf{k}_i) \mathbf{v}_i \tag{1}
+$$
 
 where $\alpha(\mathbf{q}, \mathbf{k}_i)$ are attention weights.
 
-\eqref{attention} is called **Attention Pooling**. The attention weights $\alpha(\mathbf{q}, \mathbf{k}_i)$ have specific properties:
+(1) is called **Attention Pooling**. The attention weights $\alpha(\mathbf{q}, \mathbf{k}_i)$ have specific properties:
 
 - They are **nonnegative**:  $\alpha(\mathbf{q}, \mathbf{k}_i) \geq 0 $, The model never assigns negative importance.
 - They form a **convex combination**: $ \sum_{i} \alpha(\mathbf{q}, \mathbf{k}_i) = 1 $.
@@ -172,7 +166,7 @@ $$
 \mathbf{y}_i = f(\mathbf{x}_i, (\mathbf{x}_1, \mathbf{x}_1), \dots, (\mathbf{x}_n, \mathbf{x}_n)) \in \mathbb{R}^d
 $$
 
-according to the definition of **attention pooling** \eqref{attention}.  
+according to the definition of **attention pooling** (1).  
 
   
 
