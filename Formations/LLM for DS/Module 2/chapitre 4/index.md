@@ -164,15 +164,15 @@ Once gradients of the cross-entropy loss are computed (via backpropagation), **p
 In its simplest form, **SGD** updates each parameter $\theta$ by moving it **opposite** to the gradient direction:
 
 $$
-\theta \leftarrow \theta \;-\; \eta \,\nabla_{\theta} \,\mathcal{L}(\theta),
+\theta \leftarrow \theta \;-\; \eta \,\nabla_{\theta} \,\mathcal{L}{\text{LM}}(\theta),
 $$
 
 where:
 - $\theta$ represents a **model parameter** (e.g., weights in a Transformer layer).
 - $\eta$ is the **learning rate**, controlling the step size.
-- $\nabla_{\theta} \,\mathcal{L}(\theta)$ is the gradient of the loss $\mathcal{L}$ with respect to $\theta$.
+- $\nabla_{\theta} \,\mathcal{L}{\text{LM}}(\theta)$ is the gradient of the loss $\mathcal{L}$ with respect to $\theta$.
 
-In **mini-batch** training, $\nabla_{\theta}\,\mathcal{L}$ is averaged over a small batch of examples rather than the entire dataset.
+In **mini-batch** training, $\nabla_{\theta}\,\mathcal{L}{\text{LM}}$ is averaged over a small batch of examples rather than the entire dataset.
 
 #### 2. Adam (Adaptive Moment Estimation)
 
@@ -181,13 +181,13 @@ While plain SGD works, modern large-scale models often use **Adam** or **AdamW**
 1. **Momentum** update (first moment):
 
 $$
-m_t \;\leftarrow\; \beta_1\,m_{t-1} \;+\; (1-\beta_1)\,\nabla_{\theta}\,\mathcal{L}(\theta)
+m_t \;\leftarrow\; \beta_1\,m_{t-1} \;+\; (1-\beta_1)\,\nabla_{\theta}\,\mathcal{L}{\text{LM}}(\theta)
 $$
 
 2. **Variance** update (second moment):
 
 $$
-v_t \;\leftarrow\; \beta_2\,v_{t-1} \;+\; (1-\beta_2)\,\bigl(\nabla_{\theta}\,\mathcal{L}(\theta)\bigr)^2
+v_t \;\leftarrow\; \beta_2\,v_{t-1} \;+\; (1-\beta_2)\,\bigl(\nabla_{\theta}\,\mathcal{L}{\text{LM}}(\theta)\bigr)^2
 $$
 
 3. **Bias-corrected estimates**:
