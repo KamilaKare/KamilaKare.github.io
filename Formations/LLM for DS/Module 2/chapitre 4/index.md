@@ -143,10 +143,10 @@ Once the **cross-entropy** (averaged over the batch and sequence) is computed, *
 
 2. **Loss Computation**  
    - A **softmax** layer converts logits to probabilities.
-   - The **cross-entropy** is calculated by comparing predicted probabilities \(\hat{y}_{b,t,i}\) with the one-hot targets \(y_{b,t,i}\).
+   - The **cross-entropy** is calculated by comparing predicted probabilities $\hat{y}_{b,t,i}$ with the one-hot targets $y_{b,t,i}$.
 
 3. **Backward Pass**  
-   - Automatic differentiation frameworks (e.g., PyTorch, TensorFlow) compute gradients of the loss \(\mathcal{L}_{\text{LM}}\) with respect to all model parameters.
+   - Automatic differentiation frameworks (e.g., PyTorch, TensorFlow) compute gradients of the loss $\mathcal{L}_{\text{LM}}$ with respect to all model parameters.
 
 4. **Parameter Update**  
    - An **optimizer** (e.g., AdamW) uses these gradients to adjust the model’s weights.  
@@ -155,29 +155,24 @@ Once the **cross-entropy** (averaged over the batch and sequence) is computed, *
 By **iterating** this forward-backward-update loop across many batches and epochs, the model **minimizes** cross-entropy, thereby **maximizing** the likelihood of the correct tokens and improving language modeling performance.
 
 
---- 
 ### Parameter Updates: Gradient Descent & AdamW
 
 Once gradients of the cross-entropy loss are computed (via backpropagation), **parameter updates** follow a gradient-based rule. Two common approaches are **Stochastic Gradient Descent (SGD)** and **AdamW**.
 
----
-
 #### 1. Stochastic Gradient Descent (SGD)
 
-In its simplest form, **SGD** updates each parameter \(\theta\) by moving it **opposite** to the gradient direction:
+In its simplest form, **SGD** updates each parameter $\theta$ by moving it **opposite** to the gradient direction:
 
-\[
+$$
 \theta \leftarrow \theta \;-\; \eta \,\nabla_{\theta} \,\mathcal{L}(\theta),
-\]
+$$
 
 where:
-- \(\theta\) represents a **model parameter** (e.g., weights in a Transformer layer).
-- \(\eta\) is the **learning rate**, controlling the step size.
-- \(\nabla_{\theta} \,\mathcal{L}(\theta)\) is the gradient of the loss \(\mathcal{L}\) with respect to \(\theta\).
+- $\theta$ represents a **model parameter** (e.g., weights in a Transformer layer).
+- $\eta$ is the **learning rate**, controlling the step size.
+- $\nabla_{\theta} \,\mathcal{L}(\theta)$ is the gradient of the loss $\mathcal{L}$ with respect to $\theta$.
 
-In **mini-batch** training, \(\nabla_{\theta}\,\mathcal{L}\) is averaged over a small batch of examples rather than the entire dataset.
-
----
+In **mini-batch** training, $\nabla_{\theta}\,\mathcal{L}$ is averaged over a small batch of examples rather than the entire dataset.
 
 #### 2. Adam (Adaptive Moment Estimation)
 
@@ -185,52 +180,48 @@ While plain SGD works, modern large-scale models often use **Adam** or **AdamW**
 
 1. **Momentum** update (first moment):
 
-\[
+$$
 m_t \;\leftarrow\; \beta_1\,m_{t-1} \;+\; (1-\beta_1)\,\nabla_{\theta}\,\mathcal{L}(\theta)
-\]
+$$
 
 2. **Variance** update (second moment):
 
-\[
+$$
 v_t \;\leftarrow\; \beta_2\,v_{t-1} \;+\; (1-\beta_2)\,\bigl(\nabla_{\theta}\,\mathcal{L}(\theta)\bigr)^2
-\]
+$$
 
 3. **Bias-corrected estimates**:
 
-\[
+$$
 \hat{m}_t = \frac{m_t}{1 - \beta_1^t}, 
 \quad
 \hat{v}_t = \frac{v_t}{1 - \beta_2^t}
-\]
+$$
 
 4. **Parameter update**:
 
-\[
+$$
 \theta \;\leftarrow\; 
 \theta \;-\; \eta \,\frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon}
-\]
+$$
 
 where:
-- \(\beta_1,\beta_2\) are hyperparameters (often 0.9 and 0.999).
-- \(\epsilon\) is a small constant (e.g., \(10^{-8}\)) for numerical stability.
-- \(\eta\) is the learning rate.
+- $$\beta_1,\beta_2$$ are hyperparameters (often 0.9 and 0.999).
+- $\epsilon$ is a small constant (e.g., \(10^{-8}\)) for numerical stability.
+- $\eta$ is the learning rate.
 
 **Adam** adjusts the learning rate based on how frequently a parameter has been updated, speeding convergence and often requiring less manual tuning.
-
----
 
 #### 3. AdamW (Adam + Weight Decay)
 
 **AdamW** is a popular variant that **decouples weight decay** (L2 regularization) from the gradient-based update:
 
-\[
+$$
 \theta \;\leftarrow\; 
 \theta \;-\; \eta\,\Bigl(\frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon} + \lambda \,\theta\Bigr),
-\]
+$$
 
-where \(\lambda\) is a **weight decay** factor. This ensures weight decay is applied directly to \(\theta\) rather than mixing it into the Adam moments, generally leading to better generalization.
-
----
+where $\lambda$ is a **weight decay** factor. This ensures weight decay is applied directly to $\theta$ rather than mixing it into the Adam moments, generally leading to better generalization.
 
 ### Practical Tips
 
@@ -239,7 +230,7 @@ where \(\lambda\) is a **weight decay** factor. This ensures weight decay is app
 2. **Batch Size**  
    - Larger batch sizes can speed up training but may require scaling the learning rate.
 3. **Gradient Clipping**  
-   - Prevents exploding gradients by limiting their norm (e.g., \(\|\nabla\| \leq 1\)).
+   - Prevents exploding gradients by limiting their norm (e.g., $\|\nabla\| \leq 1$).
 
 Combining **cross-entropy loss** with **AdamW** (and possibly **learning rate scheduling**) is the de-facto approach for training large-scale Transformers, balancing **stable convergence** and **robust generalization**.
 
