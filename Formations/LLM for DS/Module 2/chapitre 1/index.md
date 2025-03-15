@@ -61,7 +61,7 @@ The beauty of attention lies in its ability to help the model learn to focus on 
 
 This figure illustrates how the attention is computed in modern Transformer networks.
 
-{% include image.html src="https://github.com/user-attachments/assets/651f0ee9-3f0f-4c57-b5ec-20dbf87f722c" alt="Attention computation" caption="Attention computation." %}
+{% include image.html src="https://github.com/user-attachments/assets/709ee22a-9612-4bbc-a974-b2d3ccd73dbd" alt="Attention computation" caption="Attention computation." %}
 
 
 This perspective helps us understand why attention mechanisms are so powerful: they **dynamically select the most relevant “neighbors”** in the dataset and **combine their values** based on similarity to the query.
@@ -105,7 +105,6 @@ Once all attention heads generate their outputs, these are **concatenated** and 
 This approach is known as **Multi-Head Attention**, where each individual attention mechanism operates as an independent **head** within the overall framework. By leveraging multiple attention heads, the model gains the ability to focus on different aspects of the input, leading to **improved contextual understanding** and **enhanced learning efficiency**.
 
 #### Multi-Head Attention Mechanism
-(slides, Instead of applying **a single attention operation**, we **project** queries, keys, and values into multiple **subspaces** using independently learned **linear transformations**. Each subspace captures different **aspects** of the relationships between tokens.)
 
 1. Each query, key, and value undergoes a learned linear transformation:
    
@@ -161,14 +160,6 @@ $$
 according to the definition of **attention pooling** (1).  
 
   
-(slides
-### Summary
-
-- The **dot-product attention** scores the similarity between queries and keys.
-- The **softmax operation** normalizes these scores into attention weights.
-- The **weighted sum of values** gives the output representation.
-- **Multi-head attention** enables multiple perspectives on the same input.
-)
 
 This mechanism is the foundation of **Transformers**, enabling powerful architectures like **GPT, BERT, and T5**.
 By design, the attention mechanism provides a differentiable means of control by which a neural network can select elements from a set and to construct an associated weighted sum over representations.
@@ -271,9 +262,10 @@ $$
 
 ### 1.3.2 Why Do We Need a Feed-Forward Network?
 
-1. **Increased Capacity**: The attention mechanism handles **contextual mixing** across tokens, but the feed-forward layer gives **per-token nonlinearity** to expand representational power.
-2. **Position-Wise Independence**: Each token can be transformed **individually**, allowing the model to learn transformations that are not solely dependent on cross-token relationships.
+1.  **Complements Attention:** The attention mechanism handles **contextual mixing** across tokens, but the feed-forward layer gives **per-token nonlinearity** to expand representational power.
+2.  **Per-Token Computation:** Each token is processed independently, preserving **parallelism** and  allowing the model to learn transformations that are not solely dependent on cross-token relationships.
 3. **Flexibility**: By varying hidden-layer size, activation, or number of layers, we can tune the network to different tasks and data scales.
+
 
 
 
