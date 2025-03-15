@@ -169,27 +169,120 @@ BERT has significantly **influenced modern NLP** by demonstrating the effectiven
  
 
 
-#### **Decoder-Only Models**  
+### 2.3.2 **Decoder-Only Models**  
 Decoder-only architectures utilize only the Transformer’s decoder stack. They are designed for autoregressive text generation, where each token is generated sequentially.  
-- **Example:** **GPT (Generative Pre-trained Transformer)**  
+- **Example:** **GPT (Generative Pre-trained Transformer)** , **Llama series**, **Mistral**, **Claude** etc
 - **Use Cases:**  
   - Causal language modeling  
   - Text generation (e.g., chatbots, story writing)  
-  - Code generation  
+  - Code generation
 
-#### **Encoder-Decoder Models (Seq2Seq Transformers)**  
+
+#### **LLaMA 2 Architecture Overview**
+
+{% include image.html src="https://github.com/user-attachments/assets/55fd2977-ced3-4a56-8b81-75b57eb2f335" alt="The Llama Architecture" caption="The Llama Architecture." %}
+
+The figure above depicts a **single decoder block** in the LLaMA 2 model. This block is repeated **N** times (denoted as **Nx**) to form the full **decoder-only** Transformer architecture. Below is a breakdown of the key components and how they connect:
+
+#### **1. Input Embeddings + Rotary Positional Encodings**
+- **Token Embeddings**: Each input token is converted into a learnable embedding vector.  
+- **Rotary Position Encodings**: Instead of fixed or absolute positional embeddings, LLaMA 2 applies **rotary** encodings to each token’s embedding, helping the model preserve relative ordering in a continuous way.
+
+#### **2. RMS Norm**
+- After combining embeddings and position encodings, LLaMA 2 applies an **RMS (Root Mean Square) Norm**.  
+- **Why RMS Norm?** It provides a stable normalization alternative to LayerNorm, scaling hidden states based on their root mean square rather than mean and variance.
+
+#### **3. Self-Attention (Grouped Multi-Query Attention) + KV Cache**
+- **Grouped Multi-Query Attention**: A variation of multi-head attention where keys and values are shared (or grouped) among heads, reducing memory usage.  
+- **Causal Masking**: Ensures each token only attends to itself and preceding tokens for autoregressive text generation.  
+- **KV Cache**: Speeds up inference by caching Key-Value pairs from previous time steps, so the model doesn’t recompute them for each new token.
+  
+#### **4. RMS Norm + Feed-Forward (SwiGLU)**
+- **RMS Norm**: Normalizes again before the feed-forward sub-layer.  
+- **Feed-Forward (SwiGLU)**: A two-layer MLP using the **SwiGLU** activation function. This often improves training stability and model performance compared to ReLU or GELU.
+
+#### **5. Residual Connections**
+- Each sub-layer (Self-Attention, Feed-Forward) is wrapped with **residual connections**, allowing the model to pass information around these transformations and helping gradients flow more effectively.
+
+#### **6. Output Layer**
+- After **N** repeated decoder blocks, the final hidden states pass through a **Linear** projection to the vocabulary dimension, followed by a **Softmax** to produce probability distributions over possible next tokens.
+
+This **decoder-only** design, combined with **causal masking** and **KV caching**, makes LLaMA 2 well-suited for **autoregressive** tasks such as text generation, dialogue systems, and more. Its use of **RMS Norm**, **rotary position encodings**, and **SwiGLU** are notable departures from classic Transformer implementations, contributing to LLaMA 2’s efficiency and performance. Moreover, this approach aligns with other large language models that rely on a decoder-only architecture, which uses unidirectional attention to generate text token by token. 
+
+A dedicated chapter on fine-tuning these decoder-only models will explore how to adapt them for specific tasks, covering techniques such as LoRA (Low-Rank Adaptation), full fine-tuning, instruction tuning, and Reinforcement Learning with Human Feedback (RLHF) to enhance their performance on domain-specific applications.
+
+
+### 2.3.3 **Encoder-Decoder Models (Seq2Seq Transformers)**  
 These models leverage both the encoder and decoder stacks, making them particularly effective for sequence-to-sequence (seq2seq) tasks where an input sequence needs to be transformed into an output sequence.  
 - **Example:** **T5 (Text-to-Text Transfer Transformer)**  
 - **Use Cases:**  
   - Machine translation  
   - Text summarization  
-  - Question answering  
+  - Question answering
+
+#### 2.3.3.1 **T5 (Text-to-Text Transfer Transformer)**
+
+**T5** is a Transformer-based model from Google that adopts a full **encoder-decoder** architecture. It stands out by framing **all** natural language tasks into a unified *text-to-text* format, meaning both inputs and outputs are always strings.
+
+#### Overview
+- **Released by:** Google Research (Raffel et al., 2019)  
+- **Core Idea:** Convert various NLP tasks (e.g., translation, summarization, classification) into a *text-to-text* paradigm.  
+- **Why It Matters:** Simplifies the process of fine-tuning on multiple tasks—everything is handled by providing text input and expecting text output.
+
+#### Architecture Highlights
+1. **Encoder-Decoder Stack**  
+   - **Encoder**: Processes the input sequence using multi-head self-attention.  
+   - **Decoder**: Generates the output sequence in a **left-to-right** fashion, attending to both the encoder output and previously generated tokens.
+
+2. **Multi-Head Attention**  
+   - **Encoder Self-Attention**: Learns bidirectional context for input tokens.  
+   - **Decoder Self-Attention**: Uses **causal masking** to predict the next token.  
+   - **Cross-Attention**: Decoder attends to the encoder’s output, integrating contextual information from the input.
+
+3. **Task Prefixes**  
+   - Each task (e.g., “translate English to German”) is specified by a prefix, guiding T5 to produce the desired output format.
+
+4. **Shared Vocabulary & Token Embeddings**  
+   - T5 uses a **SentencePiece** tokenizer with a fixed vocabulary.  
+   - The encoder and decoder share embeddings to reduce the total parameter count.
+     
+#### Pre-Training Objective: “Span Corruption”
+- **Span Masking**: Instead of masking individual tokens, T5 **masks contiguous spans** of tokens in the input.  
+- **Task:** The model predicts the missing tokens from these masked spans, effectively learning bidirectional context in the encoder while training the decoder to reconstruct the masked segments.
+
+#### Fine-Tuning & Use Cases
+- **Text Summarization**: Provide a prefix like `"summarize: "` followed by the document. The model outputs a concise summary.  
+- **Machine Translation**: Use a prefix like `"translate English to French: "` followed by the English text.  
+- **Question Answering**: Present a question and context text, instruct T5 with a prefix (e.g., `"question: … context: …"`).  
+- **Classification**: Convert classification tasks into a text-to-text format (e.g., `"sst2 sentence: I loved this movie. sentiment: "`).
+
+Because T5 treats all tasks in a unified manner, **fine-tuning** typically just involves changing the **task prefix** and training on a supervised dataset with input-output text pairs.
+
+#### Model Variants
+T5 comes in multiple sizes (e.g., **T5-Small**, **T5-Base**, **T5-Large**, **T5-3B**, **T5-11B**).  
+- Larger variants capture **more complex patterns** but require **greater compute**.  
+- Smaller variants are easier to **train** and **deploy** but may have lower performance.
+
+#### Practical Considerations
+1. **Compute Requirements**  
+   - Large T5 models can be resource-intensive; smaller versions are often sufficient for many tasks.
+2. **Prompt Engineering**  
+   - Choosing the right prefix or instruction format can significantly affect performance.
+3. **Continued Pre-training**  
+   - Some tasks benefit from domain-specific continued pre-training (e.g., medical or legal corpora).
+4. **Distillation & Pruning**  
+   - Techniques like model distillation can reduce T5’s size for faster inference on limited hardware.
+
+  
 
 Each of these variations leverages the Transformer’s self-attention mechanism while modifying its structure to optimize performance for different natural language processing (NLP) tasks.  
+
 
 
 Devlin, J., Chang, M.-W., Lee, K., & Toutanova, K. (2019).
 BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding.
 In Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (pp. 4171–4186).
 arXiv:1810.04805
+
+https://www.linkedin.com/posts/kamila-kare-phd-572a87112_genai-llm-activity-7219240280481312769-B1em/?originalSubdomain=fr
 
