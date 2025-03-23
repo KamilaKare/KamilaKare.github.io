@@ -22,7 +22,7 @@ $$
 \hat{y} = \sum_{i=1}^{n} \alpha(x, x_i) \; y_i
 $$
 
-where $\alpha$ is  a [**kernel function*](https://raw.githubusercontent.com/KamilaKare/KamilaKare.github.io/blob/main/Formations/LLM%20for%20DS/Module%200/index.md) that determines how similar $x$ is to each $x_i$. The resulting $\hat{y}$ is a weighted average of the observed $y_i$ 
+where $\alpha$ is  a [**kernel function**](https://raw.githubusercontent.com/KamilaKare/KamilaKare.github.io/blob/main/Formations/LLM%20for%20DS/Module%200/index.md) that determines how similar $x$ is to each $x_i$. The resulting $\hat{y}$ is a weighted average of the observed $y_i$ 
 with weights depending on the similarity $\alpha(x, x_i)$. 
 
 
