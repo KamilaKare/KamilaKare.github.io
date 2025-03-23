@@ -214,7 +214,7 @@ where $R$ is a learned matrix encoding pairwise distances between tokens (e.g., 
 
 ### 1.2.3.3 Advanced Methods
 
-- **Rotary Positional Embedding (RoPE)**: Rotates token embeddings in a multidimensional space based on position, ensuring that the dot product depends only on relative positions. Follow this link to learn more on [RoPE](https:KamilaKare.github.io/edit/main/Formations/LLM%20for%20DS/Module%200/ROPE.md).
+- **Rotary Positional Embedding (RoPE)**: Rotates token embeddings in a multidimensional space based on position, ensuring that the dot product depends only on relative positions. Follow this link to learn more on [RoPE](https://github.com/KamilaKare/KamilaKare.github.io/edit/main/Formations/LLM%20for%20DS/Module%200/ROPE.md).
 - **ALiBi**: Adds a linear bias term to the attention score to represent the distance between tokens.
 
 ---
