@@ -227,7 +227,7 @@ The process stops when we reach a predefined vocabulary size or when no more ben
 
 This vocabulary now consists of both individual characters and subword tokens that capture common patterns in the corpus, balancing vocabulary size and the ability to represent rare or unseen words.
 
-*For a deeper dive into tokenization, please check out [this video](https://www.youtube.com/watch?v=zduSFxRajkE&t=3897s).*
+*For a deeper dive into tokenization, please check out [this video](https://www.youtube.com/embed/zduSFxRajkE&t=3897s).*
 
 ### 2.2.2 Embeddings
 
