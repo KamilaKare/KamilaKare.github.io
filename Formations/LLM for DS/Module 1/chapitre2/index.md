@@ -323,4 +323,10 @@ LLMs have revolutionized the field of Natural Language Processing by offering un
   Real-time systems benefit from the model’s ability to quickly adjust outputs based on user feedback or context changes, making interactions more dynamic and personalized.
 
 
+### References:
+```
+https://www.youtube.com/watch?v=zduSFxRajkE&t=3897s
+```
+
+
 
