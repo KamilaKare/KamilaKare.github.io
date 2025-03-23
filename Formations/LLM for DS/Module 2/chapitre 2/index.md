@@ -288,6 +288,6 @@ arXiv:1810.04805
 
 https://www.linkedin.com/posts/kamila-kare-phd-572a87112_genai-llm-activity-7219240280481312769-B1em/?originalSubdomain=fr
 
-[LLM Visualization](https://bbycroft.net/llm)
+https://bbycroft.net/llm
 ``` 
 
