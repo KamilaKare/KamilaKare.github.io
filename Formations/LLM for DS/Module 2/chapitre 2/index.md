@@ -279,11 +279,15 @@ Each of these variations leverages the Transformer’s self-attention mechanism 
 
 
 
+### References 
+```
 Devlin, J., Chang, M.-W., Lee, K., & Toutanova, K. (2019).
 BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding.
 In Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (pp. 4171–4186).
 arXiv:1810.04805
 
 https://www.linkedin.com/posts/kamila-kare-phd-572a87112_genai-llm-activity-7219240280481312769-B1em/?originalSubdomain=fr
+
 [LLM Visualization](https://bbycroft.net/llm)
+``` 
 
