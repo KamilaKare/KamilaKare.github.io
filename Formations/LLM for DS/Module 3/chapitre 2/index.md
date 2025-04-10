@@ -91,6 +91,68 @@ you can control how “peaked” or “flat” the output distribution is. Adjus
 - **Influence**:  
   These sampling strategies balance between creativity and coherence. More aggressive sampling (lower k or lower p) reduces diversity but increases focus, whereas looser parameters can introduce unexpected or creative outputs.
 
+## Examples of Top-k and Top-p Sampling
+
+### Top-k Sampling Example
+
+Imagine a vocabulary of 5 tokens with the following logits (raw scores):
+
+- **Token A:** 2.0  ==> softmax compute
+- **Token B:** 1.5  
+- **Token C:** 0.5  
+- **Token D:** 0.1  
+- **Token E:** -1.0  
+
+Using standard softmax, each token's logit is converted to a probability. In top‑k sampling, suppose we set \( k = 3 \). The process is as follows:
+
+1. **Identify the Top k Tokens:**  
+   Determine which tokens have the highest \( k \) logits. In this example, the top 3 tokens are:
+   - Token A (softmax 2.0)
+   - Token B (1.5)
+   - Token C (0.5)
+
+2. **Discard the Rest:**  
+   Set the probabilities of tokens not in the top 3 (i.e., Token D and Token E) to 0.
+
+3. **Re-normalize the Probabilities:**  
+   Re-calculate the probabilities of the remaining tokens (A, B, and C) so that they sum to 1.
+
+**Result:** The final probability distribution only includes Tokens A, B, and C, focusing the model's output on the most likely options.
+
+---
+
+### Top-p (Nucleus) Sampling Example
+
+Now, consider the same set of logits, but apply top‑p sampling with a threshold \( p \) (for example, \( p = 0.8 \)). The steps are as follows:
+
+1. **Sort Tokens by Probability:**  
+   Convert the logits to probabilities using softmax and then rank the tokens in descending order of these probabilities.
+
+2. **Select the Minimal Set:**  
+   Starting from the token with the highest probability, add tokens until the cumulative probability reaches at least \( p = 0.8 \).  
+   For instance, if after applying softmax you get something like:  
+   - Token A: 0.5  
+   - Token B: 0.3  
+   - Token C: 0.1  
+   - Token D: 0.07  
+   - Token E: 0.03  
+   Adding Token A (0.5) and Token B (0.3) gives a cumulative probability of 0.8, which meets the threshold. (In another scenario, you might need to include Token C if the cumulative sum remains below 0.8.)
+
+3. **Re-normalize over the Selected Tokens:**  
+   All tokens that were not included in this minimal set have their probabilities set to 0. The probabilities of the selected tokens are then re-normalized so that their total probability sums to 1.
+
+**Result:** The final output is determined solely by the selected tokens whose combined probability was at least \( p \), ensuring that the model considers only the most influential words as deemed by their cumulative probability.
+
+---
+
+### Summary
+
+- **Top-k Sampling:** Selects a fixed number (\( k \)) of highest-probability tokens, discards the rest, and re-normalizes the probabilities for the chosen tokens.
+- **Top-p Sampling:** Dynamically selects the smallest set of tokens whose cumulative probability is at least \( p \) (nucleus), sets the probabilities of other tokens to 0, and then re-normalizes within this set.
+
+Both techniques help control the balance between diversity and determinism in the model's outputs.
+
+
 ### Maximum Tokens and Context Window Size
 
 - **Definition**:  
