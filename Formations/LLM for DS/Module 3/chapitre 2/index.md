@@ -23,71 +23,71 @@ Large Language Models (LLMs) rely on various hyperparameters that govern how the
 
 #### The Base Softmax Formula
 
-For a given vector of logits \(\mathbf{z} = [z_1, z_2, \dots, z_n]\), the standard softmax function is defined as:
+For a given vector of logits $\mathbf{z} = [z_1, z_2, \dots, z_n]$, the standard softmax function is defined as:
 
-\[
+$$
 P(i) = \frac{\exp(z_i)}{\sum_{j=1}^{n} \exp(z_j)}
-\]
+$$
 
 where:
-- \(P(i)\) is the probability assigned to the \(i^{th}\) token.
-- \(z_i\) is the logit for the \(i^{th}\) token.
+- $P(i)$ is the probability assigned to the $i^{th}$ token.
+- $z_i$ is the logit for the $i^{th}$ token.
 
-#### Adding Temperature \(T\)
+#### Adding Temperature $T$
 
-The temperature parameter \(T\) is introduced to control the randomness of the sampling process. The modified softmax formula with temperature is given by:
+The temperature parameter $T$ is introduced to control the randomness of the sampling process. The modified softmax formula with temperature is given by:
 
-\[
+$$
 P(i) = \frac{\exp\left(\frac{z_i}{T}\right)}{\sum_{j=1}^{n} \exp\left(\frac{z_j}{T}\right)}
-\]
+$$
 
 ##### Effects of Temperature
-- **Lower Temperature (\(T < 1\))**:  
-  Dividing the logits \(z_i\) by a value less than one makes the differences between them more pronounced. This causes the softmax output to be **sharper** (i.e., more "confident" or deterministic), as the highest logits get even more dominant.
+- **Lower Temperature $(T < 1)$**:  
+  Dividing the logits $z_i$ by a value less than one makes the differences between them more pronounced. This causes the softmax output to be **sharper** (i.e., more "confident" or deterministic), as the highest logits get even more dominant.
   
-- **Higher Temperature (\(T > 1\))**:  
-  Dividing the logits \(z_i\) by a value greater than one reduces the differences between them. The resulting softmax distribution is **flatter** (i.e., more random or diverse), providing higher probabilities to tokens that might have had lower probabilities with the standard softmax.
+- **Higher Temperature $(T > 1)$**:  
+  Dividing the logits $z_i$ by a value greater than one reduces the differences between them. The resulting softmax distribution is **flatter** (i.e., more random or diverse), providing higher probabilities to tokens that might have had lower probabilities with the standard softmax.
 
-- **Special Case \(T = 1\)**:  
+- **Special Case $(T = 1)$**:  
   The formula simplifies to the original softmax function.
 
 ### Practical Example
 
 Suppose you have logits:
-\[
+$$
 \mathbf{z} = [2.0, 1.0, 0.1]
-\]
-- **Without temperature adjustment (\(T=1\))**:
+$$
+- **Without temperature adjustment ($T=1$)**:
 
-  \[
+  $$
   P(i) = \frac{\exp(z_i)}{\exp(2.0) + \exp(1.0) + \exp(0.1)}
-  \]
+  $$
 
-- **With temperature \(T = 0.5\)**:
+- **With temperature $T = 0.5$**:
 
-  \[
+  $$
   P(i) = \frac{\exp\left(\frac{z_i}{0.5}\right)}{\exp\left(\frac{2.0}{0.5}\right) + \exp\left(\frac{1.0}{0.5}\right) + \exp\left(\frac{0.1}{0.5}\right)}
-  \]
+  $$
 
-  The exponent values will be higher (i.e., \(\exp(4.0)\), \(\exp(2.0)\), \(\exp(0.2)\)), resulting in a sharper distribution.
+  The exponent values will be higher (i.e., $\exp(4.0)$, $\exp(2.0)$, $\exp(0.2)$), resulting in a sharper distribution.
 
 ### Summary
 
-By incorporating the temperature \(T\) as:
+By incorporating the temperature $T$ as:
 
-\[
+$$
 P(i) = \frac{\exp\left(\frac{z_i}{T}\right)}{\sum_{j=1}^{n} \exp\left(\frac{z_j}{T}\right)}
-\]
+$$
 
-you can control how “peaked” or “flat” the output distribution is. Adjusting \(T\) lets you trade off between more deterministic versus more creative outputs when generating text.
+you can control how “peaked” or “flat” the output distribution is. Adjusting $T$ lets you trade off between more deterministic versus more creative outputs when generating text.
 
 
 ### Top-k and Top-p (Nucleus Sampling)
 
 - **Top-k Sampling**:  
-  The model considers only the _k_ most likely tokens for each step. This truncation helps to discard low-probability words.
+  The model considers only the $k$ most likely tokens for each step. This truncation helps to discard low-probability words.
 - **Top-p (Nucleus) Sampling**:  
-  Instead of a fixed number of tokens, the model picks tokens from the smallest set whose cumulative probability exceeds a threshold _p_ (e.g., 0.9). This allows more adaptability than top-k.
+  Instead of a fixed number of tokens, the model picks tokens from the smallest set whose cumulative probability exceeds a threshold $p$ (e.g., 0.9). This allows more adaptability than top-k.
 - **Influence**:  
   These sampling strategies balance between creativity and coherence. More aggressive sampling (lower k or lower p) reduces diversity but increases focus, whereas looser parameters can introduce unexpected or creative outputs.
 
@@ -95,19 +95,19 @@ you can control how “peaked” or “flat” the output distribution is. Adjus
 
 ### Top-k Sampling Example
 
-Imagine a vocabulary of 5 tokens with the following logits (raw scores):
+Imagine a vocabulary of 5 tokens with the following logits:
 
-- **Token A:** 2.0  ==> softmax compute
+- **Token A:** 2.0 
 - **Token B:** 1.5  
 - **Token C:** 0.5  
 - **Token D:** 0.1  
 - **Token E:** -1.0  
 
-Using standard softmax, each token's logit is converted to a probability. In top‑k sampling, suppose we set \( k = 3 \). The process is as follows:
+Using standard softmax, each token's logit is converted to a probability. In top‑k sampling, suppose we set $ k = 3$. The process is as follows:
 
 1. **Identify the Top k Tokens:**  
-   Determine which tokens have the highest \( k \) logits. In this example, the top 3 tokens are:
-   - Token A (softmax 2.0)
+   Determine which tokens have the highest $ k$ logits. In this example, the top 3 tokens are:
+   - Token A (2.0)
    - Token B (1.5)
    - Token C (0.5)
 
@@ -115,7 +115,11 @@ Using standard softmax, each token's logit is converted to a probability. In top
    Set the probabilities of tokens not in the top 3 (i.e., Token D and Token E) to 0.
 
 3. **Re-normalize the Probabilities:**  
-   Re-calculate the probabilities of the remaining tokens (A, B, and C) so that they sum to 1.
+   Re-calculate the probabilities of the remaining tokens (A, B, and C) so that they sum to 1. We obtain
+  - **Token A:** 0.55
+  - **Token B:** 0.33  
+  - **Token C:** 0.12
+   
 
 **Result:** The final probability distribution only includes Tokens A, B, and C, focusing the model's output on the most likely options.
 
@@ -123,7 +127,7 @@ Using standard softmax, each token's logit is converted to a probability. In top
 
 ### Top-p (Nucleus) Sampling Example
 
-Now, consider the same set of logits, but apply top‑p sampling with a threshold \( p \) (for example, \( p = 0.8 \)). The steps are as follows:
+Now, consider the same set of logits, but apply top‑p sampling with a threshold $p$ (for example, $p = 0.8$). The steps are as follows:
 
 1. **Sort Tokens by Probability:**  
    Convert the logits to probabilities using softmax and then rank the tokens in descending order of these probabilities.
@@ -141,14 +145,14 @@ Now, consider the same set of logits, but apply top‑p sampling with a threshol
 3. **Re-normalize over the Selected Tokens:**  
    All tokens that were not included in this minimal set have their probabilities set to 0. The probabilities of the selected tokens are then re-normalized so that their total probability sums to 1.
 
-**Result:** The final output is determined solely by the selected tokens whose combined probability was at least \( p \), ensuring that the model considers only the most influential words as deemed by their cumulative probability.
+**Result:** The final output is determined solely by the selected tokens whose combined probability was at least $ p$, ensuring that the model considers only the most influential words as deemed by their cumulative probability.
 
 ---
 
 ### Summary
 
-- **Top-k Sampling:** Selects a fixed number (\( k \)) of highest-probability tokens, discards the rest, and re-normalizes the probabilities for the chosen tokens.
-- **Top-p Sampling:** Dynamically selects the smallest set of tokens whose cumulative probability is at least \( p \) (nucleus), sets the probabilities of other tokens to 0, and then re-normalizes within this set.
+- **Top-k Sampling:** Selects a fixed number ($k$) of highest-probability tokens, discards the rest, and re-normalizes the probabilities for the chosen tokens.
+- **Top-p Sampling:** Dynamically selects the smallest set of tokens whose cumulative probability is at least $p$ (nucleus), sets the probabilities of other tokens to 0, and then re-normalizes within this set.
 
 Both techniques help control the balance between diversity and determinism in the model's outputs.
 
