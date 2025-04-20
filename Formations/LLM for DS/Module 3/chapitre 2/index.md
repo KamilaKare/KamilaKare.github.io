@@ -191,25 +191,4 @@ Different LLM families and versions (e.g., GPT-3, GPT-4, Claude) may respond dif
 - Test your prompts with variations in temperature, sampling strategies, and context limits.
 - Document these settings to build a repository of best practices for different model architectures.
 
-### Practical Experimentation
 
-1. **Interactive Scripting**:  
-   Develop a short Python script using libraries (e.g., OpenAI’s API or Hugging Face Transformers) to adjust these parameters interactively. Observe how small adjustments change the output.
-   
-   _Example (Python snippet):_
-   ```python
-   import openai
-
-   prompt = "Explain the concept of overfitting in machine learning in three clear steps."
-
-   response = openai.Completion.create(
-       engine="text-davinci-003",
-       prompt=prompt,
-       max_tokens=150,
-       temperature=0.3,        # Lower for accuracy
-       top_p=0.95,             # Control sampling flexibility
-       frequency_penalty=0.0,
-       presence_penalty=0.0
-   )
-
-   print(response["choices"][0]["text"].strip())
