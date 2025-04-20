@@ -72,7 +72,7 @@ $$
 
   The exponent values will be higher (i.e., $P = [0.86, 0.12, 0.02]$), resulting in a sharper distribution.
 
-- **With temperature $T = 0.1$**, $P = [0.99, 4.5 * 10^{-5}, 5.6 * * 10^{-9}]$
+- **With temperature $T = 0.1$**, $P = [0.99,  4.5 * 10^{-5},  5.6 * 10^{-9}]$
 
 ### Summary
 
