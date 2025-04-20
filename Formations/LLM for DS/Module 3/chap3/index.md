@@ -140,7 +140,9 @@ A: Adding all the odd numbers (17, 19) gives 36. The answer is True.
 The odd numbers in this group add up to an even number: 15, 32, 5, 13, 82, 7, 1. 
 A:
 ```
+
 **Output**
+
 ```
 Adding all the odd numbers (15, 5, 13, 7, 1) gives 41. The answer is False.
 ```
@@ -153,6 +155,7 @@ Anoter approach of CoT is the idea of zero-shot CoT (Kojima et al. 2022) that es
 ```
 I went to the market and bought 10 apples. I gave 2 apples to the neighbor and 2 to the repairman. I then went and bought 5 more apples and ate 1. How many apples did I remain with?
 ```
+
 **Output**
 ```
 10 apples
@@ -162,17 +165,16 @@ Just a few months ago, chatgpt gave a result of 11. Today, the GPT-4o that power
 **Prompt**
 ```
 I went to the market and bought 10 apples. I gave 2 apples to the neighbor and 2 to the repairman. I then went and bought 5 more apples and ate 1. How many apples did I remain with?
-
 Let's think step by step.
 ```
+**Output**
+```
 Let's break it down step by step:
-
 1.  You started with 10 apples.
 2.  You gave away 2 + 2 = 4 apples.
 3.  After giving some away, you had 10 - 4 = 6 apples.
 4.  You then bought 5 more apples, so you had 6 + 5 = 11 apples.
 5.  Finally, you ate 1 apple, leaving you with 11 - 1 = 10 apples.
-
 So, you remained with **10** apples.
 ```
 
