@@ -5,18 +5,18 @@ title: Advanced Prompt Engineering
 
 “Effective prompt engineering not only reveals what the language model knows but also forces it to “think” in ways that get you closer to your desired output.”
 
-Overview
+
 In this module, you will learn how to construct and optimize prompts to unlock the full potential of large language models (LLMs). We cover:
 
-An Introduction to Advanced Prompt Engineering and its evolving role in generative AI.
+- An Introduction to Advanced Prompt Engineering and its evolving role in generative AI.
 
-A deep dive into LLMs Hyperparameters, their impact on model behavior, and how to fine-tune them for effective prompt responses.
+- A deep dive into LLMs Hyperparameters, their impact on model behavior, and how to fine-tune them for effective prompt responses.
 
-The Core Principles of Prompt Engineering including clarity, context, role assignment, and iterative refinement.
+- The Core Principles of Prompt Engineering including clarity, context, role assignment, and iterative refinement.
 
-A suite of Advanced Prompting Techniques, ranging from few-shot, chain-of-thought, and ReAct prompting to adversarial and multi-modal approaches.
+- A suite of Advanced Prompting Techniques, ranging from few-shot, chain-of-thought, and ReAct prompting to adversarial and multi-modal approaches.
 
-Case Studies, Best Practices, and Future Directions to inspire your own prompt optimizations.
+- Case Studies, Best Practices, and Future Directions to inspire your own prompt optimizations.
 
 
 # Chapter 1: Introduction to Advanced Prompt Engineering
@@ -34,7 +34,7 @@ Prompt engineering started as a simple exercise in phrasing queries to extract d
 ### The Evolution into a Discipline
 - **From Empirical Trials to Systematic Processes**: Today, prompt engineering is recognized not merely as trial-and-error but as a systematic process that involves iterative refinement, template design, and the integration of domain-specific knowledge.
 - **Inclusion of Advanced Techniques**: Techniques such as chain-of-thought (CoT) prompting, ReAct prompting (integrating reasoning and action), and multi-modal prompting have transformed the field. These approaches guide models through multi-step reasoning, offer robust ways of mitigating hallucinations, and improve cross-modal outputs.
-- **Research and Community Impact**: Open-source repositories, online guides like the [Learn Prompting Guide](https://learnprompting.org/docs/introduction) and community-driven prompt catalogs have further accelerated its adoption and sophistication. Recent surveys and systematic studies (e.g., :contentReference[oaicite:0]{index=0}, :contentReference[oaicite:1]{index=1}) underscore the rapid pace of innovation.
+- **Research and Community Impact**: Open-source repositories, online guides like the [Learn Prompting Guide](https://learnprompting.org/docs/introduction) and community-driven prompt catalogs have further accelerated its adoption and sophistication. Recent surveys and systematic studies  underscore the rapid pace of innovation.
 
 ## 1.2. Significance in Generative AI
 
@@ -80,7 +80,7 @@ With the increased complexity of prompt engineering, several challenges arise th
 
 1. [Learn Prompting Guide](https://learnprompting.org/docs/introduction) – An open-source resource for learning and experimenting with prompt engineering.
 2. [Prompt Engineering Best Practices](https://www.promptingguide.ai/) – Comprehensive guidelines and practical examples.
-3. Recent systematic surveys and research papers on prompt engineering (see related articles in :contentReference[oaicite:2]{index=2} and :contentReference[oaicite:3]{index=3}).
+
 
 > _“Advanced prompt engineering is an art and a science—a continuous cycle of learning, testing, and iterating that pushes the boundaries of what large language models can achieve.”_
 
