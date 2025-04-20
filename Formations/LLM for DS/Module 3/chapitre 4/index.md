@@ -184,6 +184,3 @@ Prompt engineering is both an art and a science. The way you craft your prompt n
 3. Key research papers on chain-of-thought prompting (Wei et al., 2022) and ReAct prompting.
 4. Community-driven prompt repositories and online guides for emerging techniques.
 
-```
-
-This extended chapter provides a robust discussion on the guiding principles of prompt engineering, offering both theoretical insights and practical recommendations to help practitioners optimize their interactions with large language models.
