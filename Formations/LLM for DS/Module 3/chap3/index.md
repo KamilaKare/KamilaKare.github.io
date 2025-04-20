@@ -283,68 +283,37 @@ This two‑step chain produces more accurate and contextually rich answers than 
 - **Increased Latency**: Multiple prompts incur additional API calls, slowing response times
 
 
-## 4.6 Tree of thoutghs
 
-
-![image](https://github.com/user-attachments/assets/d86f73c9-7341-4dbf-955a-ed403ab5dfa3)
 
 
 
 ### References
-
-1. “Self‑Consistency Improves Chain‑of‑Thought Reasoning in Language Models,” Xuezhi Wang et al., *NeurIPS* 2022.   
-2. Prompt Engineering Guide: Self‑Consistency.   
-
-
-
-
-
 ```
 Pranab Sahoo et al., A Systematic Survey of Prompt Engineering in Large Language Models, 2024 
-ARXIV
-.
 
 Jason Wei et al., “Chain‑of‑Thought Prompting Elicits Reasoning in Large Language Models,” NeurIPS 2022 
-ARXIV
-.
 
 Sander Schulhoff et al., The Prompt Report: A Systematic Survey of Prompting Techniques, 2024 
-ARXIV
-.
 
 Amir Aryani, “8 Types of Prompt Engineering,” Medium, Dec 2023 
-MEDIUM
-.
-
-“ReAct Pattern,” Wikipedia, 2024 
-WIKIPEDIA
-.
 
 Xuezhi Wang et al., “Self‑Consistency Improves Chain‑of‑Thought Reasoning in Language Models,” 2022 
-ARXIV
-.
 
 Shunyu Yao et al., “Tree of Thoughts: Deliberate Problem Solving with Large Language Models,” NeurIPS 2023 
-ARXIV
-.
-
-“Retrieval‑Augmented Generation,” Wikipedia, 2024 
-WIKIPEDIA
-.
 
 Yongchao Zhou et al., “Large Language Models Are Human‑Level Prompt Engineers (APE),” 2022 
-ARXIV
 
 Prompt Engineering Guide: Zero-Shot Prompting
 
 Wei et al., 2022. "Finetuned Language Models Are Zero-Shot Learners."
+
 Min et al., 2O22. "Rethinking the Role of Demonstrations: What Makes In-Context Learning Work?"
+
 Sewon Min, Xinxi Lyu, Ari Holtzman, Mikel Artetxe, Mike Lewis, Hannaneh Hajishirzi, Luke Zettlemoyer
 
 Xu and al., 2024. "Evaluating Large Language Models on Spatial Tasks: A Multi-Task Benchmarking Study"
 Liuchang Xu, Shuo Zhao, Qingming Lin, Luyao Chen, Qianqian Luo, Sensen Wu, Xinyue Ye, Hailin Feng, Zhenhong Du
 
 Wang et al., 2022“Self‑Consistency Improves Chain‑of‑Thought Reasoning in Language Models,” Xuezhi Wang et al., *NeurIPS* 2022.   
-
 ```
 
