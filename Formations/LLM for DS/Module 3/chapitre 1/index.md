@@ -3,7 +3,7 @@ layout: default
 title: Advanced Prompt Engineering
 ---
 
-“Effective prompt engineering not only reveals what the language model knows but also forces it to “think” in ways that get you closer to your desired output.”
+_“Effective prompt engineering not only reveals what the language model knows but also forces it to “think” in ways that get you closer to your desired output.”_
 
 
 In this module, you will learn how to construct and optimize prompts to unlock the full potential of large language models (LLMs). We cover:
