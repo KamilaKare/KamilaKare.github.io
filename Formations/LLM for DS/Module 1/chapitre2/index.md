@@ -185,7 +185,7 @@ First, we split each word into its individual characters, adding a special end-o
 Next, we count the frequency of every adjacent character pair (including the end-of-word marker) across the entire corpus. For instance:
 - The pair `l o` appears in "lower" and "lowest" (2 times).
 - The pair `o w` appears 2 times.
-- The pair `w e` appears 4 times (twice in "lower" and twice in "newer").
+- The pair `w e` and `e r` appears 3 times.
 - And so on.
 
 ##### Step 3: Merge the Most Frequent Pair
