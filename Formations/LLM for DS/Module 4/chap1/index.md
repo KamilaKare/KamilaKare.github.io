@@ -72,7 +72,7 @@ Common failure modes → mitigations
 | **Sparse** lexical search (BM25) | Keyword TF-IDF scoring                 | Precise keywords; fast             | Ignores semantics; brittle to wording | Elastic BM25, top\_k ≈ 10         |                      |
 | **Hybrid** (dense ⊕ sparse)      | Combine scores or union lists          | Best of both worlds, higher recall | Extra latency & tuning α              | Reciprocal Rank Fusion α≈0.4      |                      |
 | **Rerankers**                    | Cross-encoder scores top-N             | Great precision                    | Expensive (quadratic in N)            | `bge-reranker-large`, N ≤ 100     |                      |
-| **Knowledge-graph + dense**      | Retrieve KG triplets then text         | Handles entities, joins            | Need KG construction                  | HyPA-RAG pipeline                 | ([ACL Anthology][1]) |
+| **Knowledge-graph + dense**      | Retrieve KG triplets then text         | Handles entities, joins            | Need KG construction                  | HyPA-RAG pipeline                 | 
 | **Self-query / Iterative**       | LLM reformulates query iteratively     | Better long/complex Qs             | Higher cost                           | *Self-RAG*, ReACT loop            |                      |
 
 source
