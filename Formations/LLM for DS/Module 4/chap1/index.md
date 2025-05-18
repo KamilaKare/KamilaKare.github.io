@@ -12,14 +12,17 @@ title: Retrieval Augmented Generation and Agents
 
 ## 1  Why RAG?
 
+Retrieval-Augmented Generation (RAG) is a hybrid architecture that pairs a fast **document retriever** with a **large language generator**.
+At inference time, the retriever pulls the most relevant snippets from a curated knowledge store, and the generator weaves those snippets into a coherent, cited response—so the model can “look things up” instead of relying solely on its frozen parameters.
+
 | Pain-point of vanilla LLMs | How RAG mitigates it |
 | --- | --- |
-| **Hallucinations** – the model fabricates facts | Retrieved passages ground answers in verifiable text |
+| **Hallucinations** – the LLM fabricates facts | Retrieved passages ground answers in verifiable text |
 | **Stale knowledge** – parameters freeze at train-time | Retrieval hits a *live* index that you can refresh continuously |
 | **Data-privacy trade-off** – fine-tuning on private corpora leaks IP | Keep weights untouched; keep data in your own vector DB |
 | **Token-window limits** – long documents get truncated | Retriever selects only the most relevant snippets |
 
-RAG has therefore been adopted by every hyperscaler (Microsoft, Google, Amazon, Nvidia) and is now considered *table stakes* for factual enterprise chatbots and AI search experiences. :contentReference[oaicite:0]{index=0}
+RAG has therefore been adopted by every hyperscaler (Microsoft, Google, Amazon, Nvidia) and is now considered *table stakes* for factual enterprise chatbots and AI search experiences. 
 
 ---
 
