@@ -61,6 +61,72 @@ Unlike standard prompt-based LLM usage, agents behave more like decision-makers:
 
 ---
 
+## 2.4 🧠 Agentic RAG
+
+**Agentic RAG** combines the structured retrieval pipeline of RAG with the autonomy and planning capabilities of LLM agents.
+
+Instead of a static “retrieve-then-generate” approach, an agentic system can **reason about what to retrieve, how to retrieve it, and when to stop retrieving** — adapting dynamically based on the evolving task.
+
+---
+
+### 🔄 Key Differences from Classic RAG
+
+| Classic RAG | Agentic RAG |
+|-------------|-------------|
+| 📥 One-shot query → top-k retrieval → LLM answers | 🤔 Agent decomposes query, decides retrieval strategy per subtask |
+| 🔍 Static top-k chunk fetching | 🔁 Iterative, conditional, or multi-stage retrieval |
+| 🧠 LLM is a passive consumer of context | 🎯 LLM actively drives retrieval and decides what info it needs |
+
+---
+
+### 🧩 Typical Agentic RAG Workflow
+
+1. **Initial Query**  
+   User asks a broad or multi-part question.
+
+2. **Query Decomposition**  
+   Agent breaks the question into steps or sub-questions.
+
+3. **Step-by-Step Retrieval**  
+   For each step, the agent dynamically selects:
+   - Which retriever to use (dense, sparse, KG, etc.)
+   - What metadata filters to apply
+   - Whether to retrieve again based on quality
+
+4. **Tool Use (Optional)**  
+   May include table lookup, API calls, or document summarization.
+
+5. **Answer Synthesis**  
+   The agent combines intermediate results and generates a final grounded answer.
+
+6. **Self-Critique**  
+   Some agents re-evaluate their draft (e.g., using a second LLM pass) for correctness.
+
+
+---
+
+### ✅ Benefits
+
+- 📈 Higher factual accuracy for multi-hop questions  
+- 🔁 More efficient use of context window  
+- 🤖 Better performance in open-domain QA or ambiguous prompts  
+- 🧠 Closer to how a human researches and composes an answer
+
+---
+
+### 🚧 Challenges
+
+- ⏱️ Latency: Multiple retrieval/generation steps  
+- 💡 Evaluation: Harder to benchmark step-wise decisions  
+- 🧪 Debugging: Complex reasoning paths require observability tools  
+- 🧰 Requires tool and prompt orchestration infrastructure
+
+---
+
+> Agentic RAG is a natural evolution of classic RAG — empowering language models not just to *read*, but to *think, search, and decide* as part of the answer process.
+
+
+
 ## 2.4 🎯 Why Use LLM Agents?
 
 - **🧠 Autonomy**  
@@ -84,9 +150,14 @@ Unlike standard prompt-based LLM usage, agents behave more like decision-makers:
 
 ### 🔹 Single-Agent Systems  
 One agent handles planning, decision-making, and tool use. Ideal for linear, well-scoped tasks (e.g., research assistant).
+![image](https://github.com/user-attachments/assets/0034fec5-f3a4-45c6-86e7-57ab7880c11f)
+
 
 ### 🔸 Multi-Agent Systems  
 Multiple agents with specialized roles (e.g., planner, retriever, coder, verifier). Agents can communicate via shared memory or message passing.
+
+![image](https://github.com/user-attachments/assets/7718640e-2e32-4b7e-a116-58e4c9dc562e)
+
 
 Example use cases:
 - Autonomous research workflows
