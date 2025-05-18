@@ -41,6 +41,19 @@ RAG has therefore been adopted by every hyperscaler (Microsoft, Google, Amazon, 
 
 {% include image.html src="https://github.com/user-attachments/assets/7418ebcb-abdc-4f0e-add7-69e6538dfd85" alt="RAG " caption="RAG Architecture " %}
 
+### Ingest & Index
+
+The life of every document begins **offline**. Raw user assets—PDFs, HTML pages, slide decks, log files—are first collected by connectors or crawlers. They are scrubbed for boilerplate, unified to UTF-8, and normalized so that headings, code blocks, and tables survive intact. Each cleaned document is then **chunked** into overlapping windows of roughly 200–400 tokens; this window is small enough for precise retrieval yet large enough to preserve local context. Every chunk is passed through the *same* embedding model you will later use for queries, yielding a fixed-length numeric vector that captures its semantics. The vectors are persisted alongside metadata (title, URL, timestamp, ACL labels) and bulk-loaded into the Vector DB, which builds an approximate-nearest-neighbour (ANN) index—HNSW or IVF-Flat are common—so that similarity search later runs in tens of milliseconds. This entire pipeline is versioned and usually scheduled to run incrementally: new or changed source files are embedded and merged while deleted files are tomb-stoned, keeping the index perfectly aligned with the live knowledge base.
+
+### Retrieval
+
+The retrieval phase is online and latency-critical. When a user submits a question, the query text is immediately embedded by the exact same model used during indexing, guaranteeing that query and document vectors inhabit the same semantic space. The resulting query vector is fired at the Vector DB, which performs a k-nearest-neighbour search to surface the most similar chunks— i.e. the **relevant context**. Typical settings are k ≈ 4–8 for dense search, optionally fused with a sparse BM25 pass to capture exact keywords. Returned results honour any metadata filters (language, customer tenancy, security tier) applied at query time, ensuring the system never leaks information a user should not see. Because the index has already pruned the universe down to these few passages, you preserve both latency and token budget for what comes next.
+
+### Generation
+
+The retrieved passages flow into the blue “Augmentation” box, where they are concatenated with the original user question to form the **augmented prompt**. Delimiter tags or Markdown fences isolate each passage so the LLM can cite them unambiguously. A prompt-builder also injects system instructions—tone, audience, citation format—and trims the context if it threatens to exceed two-thirds of the model’s token window. This package is handed to the green neural-brain icon, your LLM. With temperature set low (0–0.2 for factual QA), the model reasons over the supplied evidence and crafts a response that quotes or paraphrases—but does not hallucinate beyond—the retrieved text. The answer, now grounded and optionally decorated with `[1]`-style citations, is streamed back to the user interface. Any final post-processing—linking citation numbers to source URLs, masking residual PII, or applying toxicity guards—happens here before the **Response** box completes the round-trip from raw documents to trustworthy, on-demand answers.
+
+
 ### 2.1  Deep-dive on Critical Stages
 
 #### 2.1.1  Ingest & Index  (offline / batch)
