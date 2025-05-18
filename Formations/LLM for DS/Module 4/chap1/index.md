@@ -53,68 +53,6 @@ The retrieval phase is online and latency-critical. When a user submits a questi
 
 The retrieved passages flow into the blue “Augmentation” box, where they are concatenated with the original user question to form the **augmented prompt**. Delimiter tags or Markdown fences isolate each passage so the LLM can cite them unambiguously. A prompt-builder also injects system instructions—tone, audience, citation format—and trims the context if it threatens to exceed two-thirds of the model’s token window. This package is handed to the green neural-brain icon, your LLM. With temperature set low (0–0.2 for factual QA), the model reasons over the supplied evidence and crafts a response that quotes or paraphrases—but does not hallucinate beyond—the retrieved text. The answer, now grounded and optionally decorated with `[1]`-style citations, is streamed back to the user interface. Any final post-processing—linking citation numbers to source URLs, masking residual PII, or applying toxicity guards—happens here before the **Response** box completes the round-trip from raw documents to trustworthy, on-demand answers.
 
-
-### 2.1  Deep-dive on Critical Stages
-
-#### 2.1.1  Ingest & Index  (offline / batch)
-
-| Sub-step | What you actually do | Design choices & pitfalls |
-|----------|---------------------|---------------------------|
-| **1. Connect** | Read raw data from web crawlers, SharePoint, Confluence, PDFs, SQL dumps, S3, etc. | Avoid “one-shot” ETL scripts—use connectors that can run incrementally so you don’t re-process the whole corpus nightly. |
-| **2. Clean & Normalize** | Strip boilerplate, remove HTML nav bars, fix encoding, merge tiny paragraphs. | Garbage-in → garbage-retrieved. Cleaning is *the* place to invest time. |
-| **3. Chunk / Split** | Break documents into ~200-400-token windows with 10-20 token overlap. | <200 tokens: lost context; >500 tokens: harder to match. Tune per domain. |
-| **4. Enrich Metadata** | Attach `title`, `url`, `date`, `author`, tags, security labels. | Metadata lets you filter by customer, language, region, ACL during retrieval. |
-| **5. Embed** | Transform chunks → d-dim vectors (`text-embedding-3-large` or open-source BGE). | Use a *single* embedding model for both docs and queries. Re-embed when you upgrade models. |
-| **6. Store** | Write vectors + metadata into FAISS, Milvus, Pinecone, Qdrant, or Elastic hybrid index. | • Pick **HNSW** or **IVF-Flat** for low-latency ANN.  <br>• Version your index dumps just like model weights. |
-| **7. Refresh** | Schedule nightly or streaming jobs; mark deleted docs as tombstones; invalidate L2 caches. | Missing tombstones causes “ghost citations”—users click a link that 404s. |
-
-> **Rule of thumb:** ~60 % of a production RAG team’s engineering time disappears in steps 2-4—everything after that is comparatively easy.
-
----
-
-#### 2.1.3  Retrieval  (online / real-time)
-
-1. **Query Pre-Processing**  
-   * Spell-correction, language detection, PII scrubbing.  
-   * Optionally call an LLM (“Query Rewriter”) to expand acronyms or clarify pronouns.
-
-2. **Primary Retrieval**  
-   * **Dense ANN search** over embeddings **OR** BM25 keyword search.  
-   * Typical settings: `k_dense = 4-8`, `k_sparse = 10-20`.
-
-3. **Hybrid Fusion (optional but recommended)**  
-   * Normalize both score lists → merge with **Reciprocal Rank Fusion**  
-     \(\text{RRF}(d) = \sum_{i}{\frac{1}{k + \text{rank}_i(d)}}\) with \(k≈60\).  
-   * Boosts recall ~8-15 % with <10 ms extra latency on a 100 k doc corpus.
-
-4. **Reranking**  
-   * Cross-encoder such as `bge-reranker-large` re-scores top-N (N≤100).  
-   * Costs one LLM call per candidate pair; cache results aggressively.
-
-5. **Filtering & Diversity**  
-   * Drop chunks that share the same URL/section to avoid redundancy.  
-   * Apply metadata ACL filters (user tenancy, security level, language).
-
-6. **Return Top-K Context**  
-   * Final list usually **3-6 chunks** totalling ≤ ⅔ of the LLM’s context window.  
-   * Pass along `source_id`, `vector_score`, and any `highlights` for UI.
-
-> **Latency budget:** Aim for ≤ 100 ms P95 end-to-end retrieval (including rerank) to keep total chatbot latency under 1 s.
-
----
-
-#### 2.1.6  Generation  (LLM & post-processing)
-
-| Component | Detail | Best practice |
-|-----------|--------|---------------|
-| **Prompt Builder** | Format:  <br>`SYSTEM: you are …`<br>`CONTEXT: <doc id=1>…</doc> …`<br>`USER: {{question}}` | Use explicit XML/Markdown delimiters so the model can’t cite outside the block. |
-| **Token Budgeting** | Reserve ≈ ⅓ of context for the answer itself. Trim context by score order if near the limit. | Truncating arbitrarily (“top-k=10 no matter what”) hurts faithfulness—prefer dynamic pruning. |
-| **LLM Call** | GPT-4o, Claude-3 Opus, Mistral-Large, etc. Choose temperature 0-0.2 for factual QA. | Keep *one* LLM family in prod; multi-vendor adds evaluation overhead. |
-| **Inline Reasoning** | Ask the model to think step-by-step in a hidden scratchpad, then produce a concise answer. | Use **`<scratchpad>`** tags and instruct the model to hide that part from the user—reduces hallucinations. |
-| **Citations Formatting** | Numbered refs `[1]`, JSON array, or HTML anchors—pick what your front-end can render. | Teach the model with explicit examples *inside* the prompt. |
-| **Answer Post-Processing** | • Regex to turn `[1]` into clickable links. <br>• PII redaction. <br>• Guardrails scan for disallowed content. | If any guard fails, either re-ask with `temperature=0` or display a refusal. |
-| **Telemetry Emit** | Log `trace_id`, `prompt_hash`, `retrieved_ids`, latency, token counts, user rating. | Hash prompts so you can dedupe and visualize hot queries. |
-
 Common failure modes → mitigations  
 * **Citation drift** – model cites the wrong doc. → Shorter chunks + reranker.  
 * **Answer too short** – model truncates mid-sentence. → Increase `max_tokens` and reduce context length.  
@@ -124,4 +62,17 @@ Common failure modes → mitigations
 
 > **Remember:** RAG quality is the *minimum* of retrieval quality **and** generation faithfulness.  
 > Over-investing in only one half leaves you with “retrieved garbage” or “grounded hallucinations.”
+>
+###
+| Strategy                         | How it works                           | Strengths                          | Limitations                           | Good defaults                     |                      |
+| -------------------------------- | -------------------------------------- | ---------------------------------- | ------------------------------------- | --------------------------------- | -------------------- |
+| **Dense** semantic search        | Embed query + docs → cosine similarity | Captures synonyms & paraphrase     | Can miss exact phrases; large index   | `text-embedding-3-large`, k = 4–8 |                      |
+| **Sparse** lexical search (BM25) | Keyword TF-IDF scoring                 | Precise keywords; fast             | Ignores semantics; brittle to wording | Elastic BM25, top\_k ≈ 10         |                      |
+| **Hybrid** (dense ⊕ sparse)      | Combine scores or union lists          | Best of both worlds, higher recall | Extra latency & tuning α              | Reciprocal Rank Fusion α≈0.4      |                      |
+| **Rerankers**                    | Cross-encoder scores top-N             | Great precision                    | Expensive (quadratic in N)            | `bge-reranker-large`, N ≤ 100     |                      |
+| **Knowledge-graph + dense**      | Retrieve KG triplets then text         | Handles entities, joins            | Need KG construction                  | HyPA-RAG pipeline                 | ([ACL Anthology][1]) |
+| **Self-query / Iterative**       | LLM reformulates query iteratively     | Better long/complex Qs             | Higher cost                           | *Self-RAG*, ReACT loop            |                      |
+
+[1]: https://aclanthology.org/2025.naacl-industry.79.pdf?utm_source=chatgpt.com "[PDF] HyPA-RAG: A Hybrid Parameter Adaptive Retrieval-Augmented ..."
+
 
