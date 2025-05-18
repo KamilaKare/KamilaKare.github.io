@@ -170,10 +170,9 @@ Example use cases:
 
 To implement LLM agents in practice, consider the following components:
 
-- **🧱 Frameworks & Tools**  
+- **🧱 Frameworks & Tools**
+  - [OpenAI Agent](https://openai.github.io/openai-agents-python/)
   - [LangChain Agents](https://docs.langchain.com/docs/components/agents/)  
-  - [CrewAI](https://docs.crewai.com/)  
-  - [Autogen (Microsoft)](https://microsoft.github.io/autogen/)  
   - [LlamaIndex Agents](https://docs.llamaindex.ai/en/stable/examples/agents/)
 
 - **🧠 Memory Solutions**  
