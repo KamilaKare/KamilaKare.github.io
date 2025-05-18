@@ -63,7 +63,9 @@ Common failure modes → mitigations
 > **Remember:** RAG quality is the *minimum* of retrieval quality **and** generation faithfulness.  
 > Over-investing in only one half leaves you with “retrieved garbage” or “grounded hallucinations.”
 >
-###
+> 
+## 3 Retrieval Strategies
+
 | Strategy                         | How it works                           | Strengths                          | Limitations                           | Good defaults                     |                      |
 | -------------------------------- | -------------------------------------- | ---------------------------------- | ------------------------------------- | --------------------------------- | -------------------- |
 | **Dense** semantic search        | Embed query + docs → cosine similarity | Captures synonyms & paraphrase     | Can miss exact phrases; large index   | `text-embedding-3-large`, k = 4–8 |                      |
@@ -73,6 +75,7 @@ Common failure modes → mitigations
 | **Knowledge-graph + dense**      | Retrieve KG triplets then text         | Handles entities, joins            | Need KG construction                  | HyPA-RAG pipeline                 | ([ACL Anthology][1]) |
 | **Self-query / Iterative**       | LLM reformulates query iteratively     | Better long/complex Qs             | Higher cost                           | *Self-RAG*, ReACT loop            |                      |
 
+source
 [1]: https://aclanthology.org/2025.naacl-industry.79.pdf?utm_source=chatgpt.com "[PDF] HyPA-RAG: A Hybrid Parameter Adaptive Retrieval-Augmented ..."
 
 
